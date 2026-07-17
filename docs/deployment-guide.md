@@ -2,6 +2,10 @@
 
 Step-by-step guide for deploying the SmartFood platform to production.
 
+> **⚠️ Repository Split:** The backend API is now in a separate repo (`smartfood-backend`).
+> This guide covers the backend deployment. Mobile apps are deployed via Expo EAS Build.
+> See [ADR-006](./architecture/ADR-006-repository-split.md) for details.
+
 ---
 
 ## Prerequisites
@@ -49,7 +53,7 @@ sudo ufw --force enable
 ```bash
 sudo mkdir -p /opt/smartfood
 sudo chown $USER:$USER /opt/smartfood
-git clone <repository-url> /opt/smartfood
+git clone <backend-repo-url> /opt/smartfood
 ```
 
 ---

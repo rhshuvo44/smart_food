@@ -1,20 +1,28 @@
 # SmartFood — Enterprise Food Delivery Platform
 
-**Version:** 2.0.0 | **Status:** Active | **Last Updated:** 2026-07-13
+**Version:** 2.0.0 | **Status:** Active (Multi-Repo) | **Last Updated:** 2026-07-17
 
 ## Overview
 
 SmartFood is an enterprise-grade food delivery ecosystem connecting customers, restaurants, and administrators through three dedicated mobile applications with a unified backend API. The platform handles 100,000+ orders per day, processes real-time payments, manages geospatial delivery logistics, and provides multi-tenant administration while maintaining 99.9% uptime and sub-500ms p95 response times.
 
-## System Architecture
+## Repository Architecture
+
+The platform has been split from a monorepo into **4 independent repositories** (see [ADR-006](./architecture/ADR-006-repository-split.md)):
+
+| Repository | Purpose | Tech Stack |
+|-----------|---------|------------|
+| **smartfood-backend** | REST API, Socket.IO, MongoDB | Express.js, Mongoose, Socket.IO, Stripe |
+| **smartfood-admin-app** | Admin dashboard mobile app | React Native (Expo), NativeWind |
+| **smartfood-customer-app** | Customer-facing mobile app | React Native (Expo), NativeWind |
+| **smartfood-restaurant-app** | Restaurant operations mobile app | React Native (Expo), NativeWind |
 
 ```
-Customer App (React Native)  │  Restaurant App (React Native)  │  Admin App (React Native)
-─────────────────────────────┼─────────────────────────────────┼─────────────────────────────
-                              │  REST API (Express.js)         │
-                              │  MongoDB (Primary DB)          │
-                              │  Socket.IO (Real-time)         │
-                              │  Shared Kernel (Types/Utils)   │
+Customer App  ───┐
+                  ├── REST API ─── MongoDB
+Restaurant App ──┤    (Socket.IO)    (Redis)
+                  │
+Admin App    ─────┘
 ```
 
 - **Backend:** Express.js modular monolith with domain boundaries
@@ -81,10 +89,38 @@ This project uses the OpenCode AI Development Environment with a 30-agent system
 | Mobile cold start | < 2s |
 | Mobile bundle size | < 2MB |
 
-## Related Repositories
+## Repository Locations
 
-All code lives in this monorepo. See the [Folder Structure](./folder-structure.md) guide for directory layout.
+| Repository | Local Path | Deployment |
+|-----------|-----------|------------|
+| smartfood-backend | `C:\project\smartfood-backend\` | Railway, Docker, GHCR |
+| smartfood-admin-app | `C:\project\smartfood-admin-app\` | Expo, EAS Build |
+| smartfood-customer-app | `C:\project\smartfood-customer-app\` | Expo, EAS Build |
+| smartfood-restaurant-app | `C:\project\smartfood-restaurant-app\` | Expo, EAS Build |
+
+> **Note:** The original monorepo (`C:\project\smart_food\`) is preserved as the historical record. All new development should occur in the respective new repositories listed above.
+
+## Quick Start Per Repository
+
+### Backend
+```bash
+cd smartfood-backend
+npm install
+npm run dev          # Start dev server with hot reload
+npm run typecheck    # TypeScript check
+npm test             # Run tests
+```
+
+### Mobile Apps (Admin / Customer / Restaurant)
+```bash
+cd smartfood-{admin,customer,restaurant}-app
+cd {admin,customer,restaurant}
+npm install
+npx expo start       # Start Expo dev server
+```
 
 ---
+
+
 
 *For AI agent configuration, see [.opencode/](../.opencode/README.md)*

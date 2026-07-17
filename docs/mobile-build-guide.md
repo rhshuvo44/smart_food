@@ -1,194 +1,141 @@
-# Mobile Build Guide
+# Mobile App Build Guide (APK / IPA)
 
-Build the SmartFood mobile apps (Customer, Restaurant, Admin) for Android and iOS.
+Build instructions for SmartFood mobile apps — Admin, Customer, Restaurant.
 
 ## Prerequisites
 
 | Tool | Purpose |
 |------|---------|
-| [Expo account](https://expo.dev/signup) | Required for EAS Build |
-| EAS CLI (`npm install -g eas-cli`) | EAS Build commands |
-| **Android only:** Java 17+, Android Studio | Local builds |
-| **iOS only:** macOS, Xcode 15+ | Local builds |
+| Node.js >= 20 | Runtime |
+| npm >= 10 | Package manager |
+| EAS CLI | Expo build service |
+| Expo account | Build management |
+| Android keystore | APK signing (auto-managed by EAS) |
+| Apple Developer account | IPA signing ($99/year) |
 
----
-
-## 1. Configure EAS Build
-
-Create `eas.json` in each app directory (`apps/customer/`, `apps/restaurant/`, `apps/admin/`):
-
-```json
-{
-  "cli": {
-    "version": ">= 3.0.0"
-  },
-  "build": {
-    "development": {
-      "developmentClient": true,
-      "distribution": "internal"
-    },
-    "android": {
-      "platform": "android",
-      "distribution": "internal"
-    },
-    "ios": {
-      "platform": "ios",
-      "distribution": "internal"
-    },
-    "production": {
-      "distribution": "store"
-    }
-  },
-  "submit": {
-    "production": {}
-  }
-}
-```
-
-Profiles:
-- **development** — Expo Go compatible dev client
-- **android** — standalone APK/AAB (for sideloading or testing)
-- **ios** — standalone IPA (internal distribution via TestFlight or sideload)
-- **production** — store-ready signed build
-
-## 2. Authenticate
+## 1. EAS Setup (One Time)
 
 ```bash
+# Install EAS CLI globally
+npm install -g eas-cli
+
+# Login to Expo
 eas login
-# Opens browser — log in with your Expo account
-```
 
-Verify:
-```bash
+# Verify
 eas whoami
 ```
 
-## 3. Build Matrix
+## 2. Build Profiles (eas.json)
 
-Each app must be built separately. Set `EXPO_PUBLIC_API_URL` to point to your backend.
+Each app has 3 build profiles:
 
-### Customer App
+| Profile | Use Case | Output |
+|---------|----------|--------|
+| `development` | Local dev with Expo Go | Dev client |
+| `preview` | Internal testing (APK) | Signed APK |
+| `production` | Store submission (APK/IPA) | APK + IPA |
 
+## 3. Building APK (Android)
+
+### Development Build
 ```bash
-cd apps/customer
-
-# Android
-EXPO_PUBLIC_API_URL=https://<your-backend>.up.railway.app/api/v1 \
-  eas build --platform android --profile android
-
-# iOS
-EXPO_PUBLIC_API_URL=https://<your-backend>.up.railway.app/api/v1 \
-  eas build --platform ios --profile ios
+cd admin   # or customer, restaurant
+eas build --platform android --profile development
 ```
 
-### Restaurant App
-
+### Preview APK (Internal Testing)
 ```bash
-cd apps/restaurant
-
-# Android
-EXPO_PUBLIC_API_URL=https://<your-backend>.up.railway.app/api/v1 \
-  eas build --platform android --profile android
-
-# iOS
-EXPO_PUBLIC_API_URL=https://<your-backend>.up.railway.app/api/v1 \
-  eas build --platform ios --profile ios
+eas build --platform android --profile preview
 ```
+Downloads as `.apk` — install directly on any Android device.
 
-### Admin App
-
+### Production APK (Play Store)
 ```bash
-cd apps/admin
-
-# Android
-EXPO_PUBLIC_API_URL=https://<your-backend>.up.railway.app/api/v1 \
-  eas build --platform android --profile android
-
-# iOS
-EXPO_PUBLIC_API_URL=https://<your-backend>.up.railway.app/api/v1 \
-  eas build --platform ios --profile ios
+eas build --platform android --profile production
 ```
+Output: `.aab` (Android App Bundle) for Play Store, or `.apk` (configurable).
 
-Build output: EAS gives you a download link for the APK/AAB (Android) or IPA (iOS).
-
-## 4. Local Builds (No EAS Cloud)
-
-Alternative to EAS — build directly on your machine.
-
-### Android
-
+### Local Build (No EAS)
 ```bash
-cd apps/customer  # or restaurant, admin
-
-# Development build (installs on device/emulator)
+# Requires Android SDK installed
 npx expo run:android
-
-# Production APK
-npx expo run:android --variant release
 ```
 
-Requires Android Studio with Android SDK API 34+ and a configured emulator or connected device.
+## 4. Building IPA (iOS)
 
-### iOS
+IPA build requires **Apple Developer Program** membership.
 
 ```bash
-cd apps/customer  # or restaurant, admin
+# Production IPA
+eas build --platform ios --profile production
 
-# Development build (opens Xcode)
+# Internal testing (TestFlight)
+eas build --platform ios --profile preview
+```
+
+### Local Build (No EAS, macOS only)
+```bash
+# Requires Xcode installed
 npx expo run:ios
-
-# Production build
-npx expo run:ios --configuration Release
 ```
 
-Requires macOS with Xcode 15+.
+## 5. Submitting to Stores
 
-## 5. Install Builds on Device
+### Google Play Store
+```bash
+eas submit --platform android --profile production
+```
 
-### Android APK
+### Apple App Store
+```bash
+eas submit --platform ios --profile production
+```
+
+## 6. App Identifiers
+
+| App | Android Package | iOS Bundle ID | Expo Slug |
+|-----|----------------|---------------|-----------|
+| **Admin** | `com.smartfood.admin` | `com.smartfood.admin` | `smartfood-admin` |
+| **Customer** | `com.smartfood.customer` | `com.smartfood.customer` | `smartfood-customer` |
+| **Restaurant** | `com.smartfood.restaurant` | `com.smartfood.restaurant` | `smartfood-restaurant` |
+
+## 7. Credential Management
+
+EAS manages signing credentials automatically. To check status:
 
 ```bash
-# Using adb (Android Debug Bridge)
-adb install app-release.apk
-
-# Or: transfer the APK to the device and open it
+eas credentials --platform android
+eas credentials --platform ios
 ```
 
-### Android AAB (for testing)
+For custom keystores, use:
 
 ```bash
-# Convert AAB to APK for direct install
-java -jar bundletool-all.jar build-apks \
-  --bundle=app-release.aab \
-  --output=app-release.apks \
-  --mode=universal
-
-# Extract and install
-unzip app-release.apks -d apks
-adb install apks/universal.apk
+eas build:resign
 ```
 
-### iOS IPA (development)
+## 8. Full CI/CD Pipeline
 
-- Open Xcode → **Window** → **Devices and Simulators**
-- Drag the IPA onto the device in the list
-- Or use `xcrun`:
-  ```bash
-  xcrun devicectl install device --path app.ipa
-  ```
+Each app repo has `.github/workflows/ci.yml` for lint + typecheck.
 
-Development IPAs from EAS with `"distribution": "internal"` can be installed via the **Expo Go** app or by emailing the install link to your Apple ID.
+To add automated EAS builds in CI, extend the workflow:
 
----
+```yaml
+- name: Build with EAS
+  run: eas build --platform android --profile preview --non-interactive
+  env:
+    EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+```
 
-## Troubleshooting
+Generate `EXPO_TOKEN` from [Expo Settings](https://expo.dev/settings/access-tokens).
 
-| Issue | Fix |
-|-------|-----|
-| `EXPO_PUBLIC_API_URL` not working | Only available at build time — set before `eas build`, not at runtime |
-| EAS Build fails on `@smartfood/shared` | The Dockerfile / build process must resolve workspace dependencies — use the monorepo Dockerfile or ensure `npm run build --workspace=shared` runs first |
-| Android `INSTALL_FAILED_UPDATE_INCOMPATIBLE` | Uninstall existing app first: `adb uninstall com.smartfood.customer` |
-| iOS code signing error | Ensure you have an Apple Developer account and the signing certificate is installed in Keychain Access |
-| Build too large | Check `app.json` for unnecessary plugins; run `expo optimize` for assets |
-| Metro bundler crash | `npx expo start -c` to clear cache |
-| `eas build` not found | `npm install -g eas-cli` |
+## 9. Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| `EAS token not found` | Run `eas login` or set `EXPO_TOKEN` env |
+| `Android SDK not found` | Install Android Studio, set `ANDROID_HOME` |
+| `Bundle identifier mismatch` | Check `app.json` ios.bundleIdentifier |
+| `Code signing error` | Run `eas build:resign` or check Apple Developer |
+| `Build timeout` | EAS free tier: 60min limit. Upgrade if needed |
