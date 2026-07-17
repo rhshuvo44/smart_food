@@ -30,6 +30,8 @@ COPY --from=builder --chown=app:app /app/backend/package.json ./
 COPY --from=builder --chown=app:app /app/shared/package.json shared/
 COPY --from=builder --chown=app:app /app/node_modules ./node_modules
 
+RUN mkdir -p /app/logs && chown app:app /app/logs
+
 USER app
 
 EXPOSE 3000

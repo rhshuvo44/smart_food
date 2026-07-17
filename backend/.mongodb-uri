@@ -1,1 +1,1 @@
-mongodb://rhshuvo44_db_user:8aqXcbNFFi8Fum8M@ac-budjayp-shard-00-00.zqu30wa.mongodb.net:27017,ac-budjayp-shard-00-01.zqu30wa.mongodb.net:27017,ac-budjayp-shard-00-02.zqu30wa.mongodb.net:27017/smart_food?ssl=true&replicaSet=atlas-3r5326-shard-0&authSource=admin
+mongodb://127.0.0.1:56943/
