@@ -1,0 +1,42 @@
+import { Router } from 'express';
+import { healthRoutes } from './health.route.js';
+import { authRoutes } from '../domains/auth/auth.routes.js';
+import { restaurantRoutes } from '../domains/restaurant/restaurant.routes.js';
+import { menuItemRoutes } from '../domains/menu-item/menu-item.routes.js';
+import { orderRoutes } from '../domains/order/order.routes.js';
+import { dashboardRoutes } from '../domains/dashboard/dashboard.routes.js';
+import { adminDashboardRoutes } from '../domains/admin/dashboard/admin-dashboard.routes.js';
+import { adminAnalyticsRoutes } from '../domains/admin/analytics/admin-analytics.routes.js';
+import { adminReportsRoutes } from '../domains/admin/reports/admin-reports.routes.js';
+import { adminOrdersRoutes } from '../domains/admin/orders/admin-orders.routes.js';
+import { adminUsersRoutes } from '../domains/admin/users/admin-users.routes.js';
+import { adminRestaurantsRoutes } from '../domains/admin/restaurants/admin-restaurants.routes.js';
+import { paymentRoutes } from '../domains/payment/payment.routes.js';
+import { notificationRoutes } from '../domains/notifications/notification.routes.js';
+import { deliveryRoutes } from '../domains/delivery/delivery.routes.js';
+import { chatRoutes } from '../domains/chat/chat.routes.js';
+import { geocodingRoutes } from '../services/geocoding.routes.js';
+import { distanceRoutes } from '../services/distance.routes.js';
+
+const router = Router();
+
+router.use(healthRoutes);
+router.use(authRoutes);
+router.use(restaurantRoutes);
+router.use(menuItemRoutes);
+router.use(orderRoutes);
+router.use(paymentRoutes);
+router.use(notificationRoutes);
+router.use(dashboardRoutes);
+router.use(adminDashboardRoutes);
+router.use(adminAnalyticsRoutes);
+router.use(adminReportsRoutes);
+router.use(adminOrdersRoutes);
+router.use(adminUsersRoutes);
+router.use(adminRestaurantsRoutes);
+router.use(deliveryRoutes);
+router.use(chatRoutes);
+router.use(geocodingRoutes);
+router.use(distanceRoutes);
+
+export { router as apiRoutes };

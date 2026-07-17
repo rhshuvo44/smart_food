@@ -1,0 +1,58 @@
+name: Docker Vulnerability Scan
+
+on:
+  schedule:
+    - cron: '0 4 * * 0'
+  push:
+    branches: [main, develop]
+    paths:
+      - 'backend/docker/Dockerfile'
+      - 'backend/package.json'
+      - 'package.json'
+      - 'package-lock.json'
+
+jobs:
+  scan:
+    name: Vulnerability Scan
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./backend/docker/Dockerfile
+          push: false
+          tags: smartfood-backend:scan-${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Run Trivy scan (SARIF output)
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: smartfood-backend:scan-${{ github.sha }}
+          format: sarif
+          output: trivy-results.sarif
+          severity: 'HIGH,CRITICAL'
+
+      - name: Upload Trivy results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: trivy-results.sarif
+          category: trivy
+
+      - name: Run Trivy scan (table output)
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: smartfood-backend:scan-${{ github.sha }}
+          format: table
+          exit-code: '1'
+          severity: 'CRITICAL'

@@ -1,0 +1,50 @@
+{
+  "expo": {
+    "name": "SmartFood Customer",
+    "slug": "smartfood-customer",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "smartfood",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "splash": {
+      "backgroundColor": "#FF6B35"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.smartfood.customer",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "SmartFood uses your location to find nearby restaurants and track delivery status.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "SmartFood needs background location access for live delivery tracking."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#FF6B35"
+      },
+      "package": "com.smartfood.customer",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION"
+      ]
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "SmartFood needs background location access for live delivery tracking.",
+          "locationWhenInUsePermission": "SmartFood uses your location to find nearby restaurants and track delivery status."
+        }
+      ],
+      [
+        "react-native-maps",
+        {
+          "provider": "google"
+        }
+      ]
+    ]
+  }
+}

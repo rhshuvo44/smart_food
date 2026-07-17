@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "SmartFood Restaurant",
+    "slug": "smartfood-restaurant",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "smartfood-restaurant",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "splash": { "backgroundColor": "#004E89" },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.smartfood.restaurant",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "SmartFood Restaurant uses your location to set your restaurant's delivery zone.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "SmartFood Restaurant needs background location access for live delivery tracking."
+      }
+    },
+    "android": {
+      "adaptiveIcon": { "backgroundColor": "#004E89" },
+      "package": "com.smartfood.restaurant",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ]
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "SmartFood Restaurant uses your location to set your restaurant's delivery zone."
+        }
+      ]
+    ]
+  }
+}

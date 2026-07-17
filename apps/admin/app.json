@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "SmartFood Admin",
+    "slug": "smartfood-admin",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "smartfood-admin",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "splash": { "backgroundColor": "#1A1A2E" },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.smartfood.admin",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "SmartFood Admin uses your location to monitor deliveries and manage zones.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "SmartFood Admin needs background location access for live tracking."
+      }
+    },
+    "android": {
+      "adaptiveIcon": { "backgroundColor": "#1A1A2E" },
+      "package": "com.smartfood.admin",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ]
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "SmartFood Admin uses your location to monitor deliveries and manage zones."
+        }
+      ]
+    ]
+  }
+}
