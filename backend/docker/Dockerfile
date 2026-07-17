@@ -27,6 +27,7 @@ ENV PORT=3000
 COPY --from=builder --chown=app:app /app/backend/dist ./dist
 COPY --from=builder --chown=app:app /app/shared/dist ./shared/dist
 COPY --from=builder --chown=app:app /app/backend/package.json ./
+COPY --from=builder --chown=app:app /app/shared/package.json shared/
 COPY --from=builder --chown=app:app /app/node_modules ./node_modules
 
 USER app
