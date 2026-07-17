@@ -66,6 +66,12 @@ async function main(): Promise<void> {
 
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (reason: Error | unknown) => {
+  console.error('UNHANDLED REJECTION! Shutting down...');
+  if (reason instanceof Error) {
+    console.error(reason);
+  } else {
+    console.error('Unhandled rejection:', reason);
+  }
   logger.error('UNHANDLED REJECTION! Shutting down...');
   if (reason instanceof Error) {
     logger.error(reason.message, { err: reason });
@@ -77,6 +83,8 @@ process.on('unhandledRejection', (reason: Error | unknown) => {
 
 // Handle uncaught exceptions
 process.on('uncaughtException', (err: Error) => {
+  console.error('UNCAUGHT EXCEPTION! Shutting down...');
+  console.error(err);
   logger.error('UNCAUGHT EXCEPTION! Shutting down...');
   logger.error(err.message, { err });
   process.exit(1);

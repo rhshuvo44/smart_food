@@ -15,14 +15,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - run: npm ci
-      - run: npm run build
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -60,28 +52,42 @@ jobs:
         with:
           image-ref: ghcr.io/${{ github.repository }}/backend:${{ github.sha }}
           format: table
-          exit-code: '0'
-          severity: 'HIGH,CRITICAL'
+          exit-code: '1'
+          severity: 'CRITICAL'
 
       - name: Deploy to staging
-        run: |
-          echo "Deploying to staging environment..."
-          echo "Image: ghcr.io/${{ github.repository }}/backend:${{ github.sha }}"
-          echo "Target: staging-server"
-          # Override this with your deployment method:
-          # SSH:
-          #   ssh deploy@staging-server "cd /opt/smartfood && docker compose pull backend && docker compose up -d backend"
-          # Ansible:
-          #   ansible-playbook deploy.yml -e image_tag=${{ github.sha }}
-          # Kubernetes:
-          #   kubectl set image deployment/backend backend=ghcr.io/${{ github.repository }}/backend:${{ github.sha }}
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.STAGING_HOST }}
+          username: ${{ secrets.STAGING_USER }}
+          key: ${{ secrets.STAGING_SSH_KEY }}
+          envs: IMAGE_TAG,JWT_ACCESS_SECRET,JWT_REFRESH_SECRET,MONGODB_URI,CORS_ORIGIN
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+          JWT_ACCESS_SECRET: ${{ secrets.JWT_ACCESS_SECRET }}
+          JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          CORS_ORIGIN: ${{ secrets.CORS_ORIGIN }}
+        script: |
+          cd /opt/smartfood
+          docker compose pull backend
+          cat > backend/.env.production << EOF
+          NODE_ENV=production
+          PORT=3000
+          MONGODB_URI=${MONGODB_URI}
+          JWT_ACCESS_SECRET=${JWT_ACCESS_SECRET}
+          JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET}
+          CORS_ORIGIN=${CORS_ORIGIN}
+          LOG_LEVEL=info
+          EOF
+          docker compose -f docker-compose.prod.yml up -d backend
 
       - name: Smoke test
         run: |
-          echo "Running smoke tests..."
-          # Replace with actual smoke test:
-          # curl -f --retry 5 --retry-delay 10 --retry-connrefused https://staging.smartfood.com/api/v1/health
-          echo "Smoke tests passed"
+          sleep 10
+          curl -f --retry 10 --retry-delay 5 --retry-connrefused \
+            https://${{ secrets.STAGING_DOMAIN }}/api/v1/health || \
+            curl -f --retry 5 --retry-delay 5 http://localhost:3000/api/v1/health
 
       - name: Notify Slack
         uses: slackapi/slack-github-action@v1.24.0
