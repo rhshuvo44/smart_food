@@ -1,4 +1,4 @@
-FROM node:20-alpine AS builder
+FROM node:26-alpine AS builder
 WORKDIR /app
 
 RUN apk add --no-cache libc6-compat
@@ -16,7 +16,7 @@ RUN npm ci --workspaces --if-present
 RUN npm run build --workspace=shared
 RUN npm run build --workspace=backend
 
-FROM node:20-alpine AS runner
+FROM node:26-alpine AS runner
 WORKDIR /app
 
 RUN addgroup --system app && adduser --system --ingroup app app
