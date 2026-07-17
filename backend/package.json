@@ -13,7 +13,8 @@
     "test": "jest --forceExit --detectOpenHandles",
     "lint": "eslint src/**/*.ts",
     "clean": "rm -rf dist",
-    "seed": "tsx seeds/seed.ts"
+    "seed": "tsx seeds/seed.ts",
+    "seed:mem": "tsx seed-dev.ts"
   },
   "dependencies": {
     "@sendgrid/mail": "^8.1.6",

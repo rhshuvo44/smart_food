@@ -126,10 +126,16 @@ export async function seed(): Promise<void> {
   await DeliveryZone.create([
     {
       name: 'Downtown',
-      boundaries: [
-        { type: 'Point', coordinates: [-73.985, 40.748] },
-        { type: 'Point', coordinates: [-73.975, 40.758] },
-      ],
+      boundary: {
+        type: 'Polygon',
+        coordinates: [[
+          [-73.990, 40.745],
+          [-73.980, 40.745],
+          [-73.980, 40.755],
+          [-73.990, 40.755],
+          [-73.990, 40.745],
+        ]],
+      },
       baseFee: 2.99,
       feePerKm: 0.5,
       estimatedMinutes: 20,
@@ -137,10 +143,16 @@ export async function seed(): Promise<void> {
     },
     {
       name: 'Suburbs',
-      boundaries: [
-        { type: 'Point', coordinates: [-74.005, 40.728] },
-        { type: 'Point', coordinates: [-73.995, 40.738] },
-      ],
+      boundary: {
+        type: 'Polygon',
+        coordinates: [[
+          [-74.010, 40.725],
+          [-74.000, 40.725],
+          [-74.000, 40.735],
+          [-74.010, 40.735],
+          [-74.010, 40.725],
+        ]],
+      },
       baseFee: 5.99,
       feePerKm: 0.75,
       estimatedMinutes: 35,
