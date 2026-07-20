@@ -4,7 +4,7 @@ import { SectionHeader } from '../../components/common/section-header';
 import { colors, spacing, shadows, borderRadius } from '../../constants';
 
 const REPORTS = [
-  { title: 'Daily Sales Report', icon: '📅', desc: 'Today\'s revenue and orders summary' },
+  { title: 'Daily Sales Report', icon: '📅', desc: "Today's revenue and orders summary" },
   { title: 'Weekly Performance', icon: '📊', desc: 'Week-over-week growth metrics' },
   { title: 'Top Restaurants', icon: '🏆', desc: 'Best performing restaurants' },
   { title: 'User Activity', icon: '👤', desc: 'User signups and engagement' },
@@ -31,7 +31,16 @@ export default function ReportsScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
-  card: { flexDirection: 'row', alignItems: 'center', marginHorizontal: spacing.md, padding: spacing.md, backgroundColor: colors.white, borderRadius: borderRadius.md, marginBottom: spacing.sm, ...shadows.sm },
+  card: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: spacing.md,
+    padding: spacing.md,
+    backgroundColor: colors.white,
+    borderRadius: borderRadius.md,
+    marginBottom: spacing.sm,
+    ...shadows.sm,
+  },
   cardIcon: { fontSize: 28, marginRight: spacing.md },
   cardBody: { flex: 1 },
   cardTitle: { fontSize: 15, fontWeight: '600', color: colors.text },

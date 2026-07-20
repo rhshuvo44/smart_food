@@ -3,7 +3,7 @@ if (Platform.OS === 'web' && UIManager && typeof UIManager.hasViewManagerConfig 
   (UIManager as any).hasViewManagerConfig = () => false;
 }
 
-import { Stack } from 'expo-router';
+import { Stack, router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useEffect } from 'react';
@@ -17,6 +17,7 @@ const queryClient = new QueryClient({
 
 export default function RootLayout() {
   const isLoading = useAuthStore((s) => s.isLoading);
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
 
   useEffect(() => {
     async function bootstrap() {
@@ -29,6 +30,12 @@ export default function RootLayout() {
     }
     bootstrap();
   }, []);
+
+  useEffect(() => {
+    if (!isLoading && isAuthenticated) {
+      router.replace('/(tabs)');
+    }
+  }, [isLoading, isAuthenticated]);
 
   if (isLoading) {
     return (

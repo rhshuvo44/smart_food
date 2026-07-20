@@ -1,4 +1,4 @@
-import { Stack } from 'expo-router';
+import { Stack, router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { View } from 'react-native';
@@ -14,6 +14,7 @@ const queryClient = new QueryClient({
 
 export default function RootLayout() {
   const isLoading = useAuthStore((s) => s.isLoading);
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const setAuth = useAuthStore((s) => s.setAuth);
   const setLoading = useAuthStore((s) => s.setLoading);
 
@@ -33,6 +34,12 @@ export default function RootLayout() {
     }
     init();
   }, []);
+
+  useEffect(() => {
+    if (!isLoading && isAuthenticated) {
+      router.replace('/(tabs)');
+    }
+  }, [isLoading, isAuthenticated]);
 
   if (isLoading) {
     return (

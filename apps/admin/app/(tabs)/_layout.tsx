@@ -1,7 +1,5 @@
 import { Text } from 'react-native';
-import { Tabs, router } from 'expo-router';
-import { useEffect } from 'react';
-import { useAuthStore } from '../../stores/auth.store';
+import { Tabs } from 'expo-router';
 import { colors } from '../../constants';
 
 function TabIcon({ icon, focused }: { icon: string; focused: boolean }) {
@@ -9,12 +7,6 @@ function TabIcon({ icon, focused }: { icon: string; focused: boolean }) {
 }
 
 export default function TabLayout() {
-  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
-
-  useEffect(() => {
-    if (!isAuthenticated) router.replace('/(auth)/login');
-  }, [isAuthenticated]);
-
   return (
     <Tabs
       screenOptions={{
