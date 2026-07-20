@@ -1,7 +1,11 @@
+import { UIManager, Platform, View, ActivityIndicator } from 'react-native';
+if (Platform.OS === 'web' && UIManager && typeof UIManager.hasViewManagerConfig !== 'function') {
+  (UIManager as any).hasViewManagerConfig = () => false;
+}
+
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { View, ActivityIndicator } from 'react-native';
 import { useEffect } from 'react';
 import { useAuthStore } from '../stores/auth.store';
 import { loadStoredTokens } from '../services/api';

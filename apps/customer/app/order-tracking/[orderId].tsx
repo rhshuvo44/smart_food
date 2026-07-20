@@ -1,6 +1,6 @@
 import { useLocalSearchParams, Stack } from 'expo-router';
 import { View, StyleSheet } from 'react-native';
-import { useDeliveryTracking } from '../../hooks/useDeliveryTracking';
+import { useDeliveryTracking } from '../hooks/useDeliveryTracking';
 import { LiveTrackingView } from '../../components/maps/LiveTrackingView';
 import { Loading } from '../../components/common/loading';
 import { ErrorState } from '../../components/common/error-state';

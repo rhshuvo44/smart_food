@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react';
-import socketService from '../services/socket';
 import api from '../services/api';
 
 export interface DeliveryTrackingInfo {

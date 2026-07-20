@@ -9,7 +9,13 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "eslint --ext .ts,.tsx .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "eas-build:development": "eas build --platform android --profile development",
+    "eas-build:preview": "eas build --platform android --profile preview",
+    "eas-build:production:android": "eas build --platform android --profile production",
+    "eas-build:production:ios": "eas build --platform ios --profile production",
+    "eas-submit:android": "eas submit --platform android --profile production",
+    "eas-submit:ios": "eas submit --platform ios --profile production"
   },
   "dependencies": {
     "@smartfood/shared": "*",
@@ -34,6 +40,7 @@
   },
   "devDependencies": {
     "@types/react": "~18.3.0",
-    "typescript": "^5.4.0"
+    "typescript": "^5.4.0",
+    "eas-cli": "^3.0.0"
   }
 }

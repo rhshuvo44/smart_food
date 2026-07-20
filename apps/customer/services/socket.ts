@@ -7,7 +7,6 @@ const BASE_URL = process.env.EXPO_PUBLIC_API_URL?.replace('/api/v1', '') || 'htt
 class SocketService {
   private socket: Socket | null = null;
   private listeners: Map<string, Set<(data: any) => void>> = new Map();
-  private reconnectAttempts = 0;
   private maxReconnectAttempts = 10;
 
   async connect() {
@@ -25,9 +24,7 @@ class SocketService {
       reconnectionDelayMax: 30000,
     });
 
-    this.socket.on('connect', () => {
-      this.reconnectAttempts = 0;
-    });
+    this.socket.on('connect', () => {});
 
     this.socket.on('disconnect', () => {});
 

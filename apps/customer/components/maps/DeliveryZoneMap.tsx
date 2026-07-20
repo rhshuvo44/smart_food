@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Platform } from 'react-native';
 import { Polygon } from 'react-native-maps';
-import MapView from './MapView';
+import { AppMapView as MapView } from './MapView';
 import type { Region } from 'react-native-maps';
 import { colors, spacing, borderRadius } from '../../constants';
 

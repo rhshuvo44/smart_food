@@ -1,5 +1,5 @@
-import { View, ActivityIndicator, Text, StyleSheet } from 'react-native';
-import { colors, spacing } from '../../constants';
+import { View, Text, StyleSheet } from 'react-native';
+import { colors, spacing, typography } from '../../constants';
 
 interface LoadingScreenProps {
   message?: string;
@@ -8,23 +8,14 @@ interface LoadingScreenProps {
 export function LoadingScreen({ message = 'Loading...' }: LoadingScreenProps) {
   return (
     <View style={styles.container}>
-      <ActivityIndicator size="large" color={colors.primary} />
+      <Text style={styles.spinner}>⏳</Text>
       <Text style={styles.text}>{message}</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: colors.background,
-    padding: spacing.lg,
-  },
-  text: {
-    fontSize: 16,
-    color: colors.textSecondary,
-    marginTop: spacing.md,
-  },
+  container: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background, padding: spacing.lg },
+  spinner: { fontSize: 40, marginBottom: spacing.md },
+  text: { ...typography.body, color: colors.textSecondary },
 });

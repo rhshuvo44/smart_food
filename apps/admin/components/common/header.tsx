@@ -1,75 +1,47 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
-import { colors, spacing } from '../../constants';
+import { colors, spacing, typography } from '../../constants';
 
 interface HeaderProps {
   title: string;
   subtitle?: string;
   showBack?: boolean;
   onBack?: () => void;
-  rightAction?: {
-    icon: string;
-    onPress: () => void;
-  };
+  rightAction?: { icon: string; onPress: () => void };
 }
 
-export function Header({ title, subtitle, showBack = true, onBack, rightAction }: HeaderProps) {
+export function Header({ title, subtitle, showBack, onBack, rightAction }: HeaderProps) {
   return (
     <View style={styles.container}>
       <View style={styles.topRow}>
         {showBack ? (
-          <TouchableOpacity onPress={onBack ?? (() => router.back())} style={styles.backBtn}>
-            <Text style={styles.backArrow}>← Back</Text>
+          <TouchableOpacity onPress={onBack || (() => router.back())} style={styles.backButton}>
+            <Text style={styles.backIcon}>←</Text>
           </TouchableOpacity>
-        ) : (
-          <View style={styles.backBtn} />
-        )}
-        {rightAction && (
-          <TouchableOpacity onPress={rightAction.onPress} style={styles.actionBtn}>
+        ) : <View style={styles.placeholder} />}
+        <View style={styles.center}>
+          <Text style={styles.title} numberOfLines={1}>{title}</Text>
+          {subtitle && <Text style={styles.subtitle} numberOfLines={1}>{subtitle}</Text>}
+        </View>
+        {rightAction ? (
+          <TouchableOpacity onPress={rightAction.onPress} style={styles.actionButton}>
             <Text style={styles.actionIcon}>{rightAction.icon}</Text>
           </TouchableOpacity>
-        )}
+        ) : <View style={styles.placeholder} />}
       </View>
-      <Text style={styles.title}>{title}</Text>
-      {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.primary,
-    paddingHorizontal: spacing.lg,
-    paddingTop: spacing.xl,
-    paddingBottom: spacing.lg,
-  },
-  topRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: spacing.sm,
-  },
-  backBtn: {
-    minWidth: 60,
-  },
-  backArrow: {
-    fontSize: 16,
-    color: 'rgba(255,255,255,0.8)',
-  },
-  actionBtn: {
-    padding: spacing.xs,
-  },
-  actionIcon: {
-    fontSize: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: '#FFFFFF',
-  },
-  subtitle: {
-    fontSize: 14,
-    color: 'rgba(255,255,255,0.8)',
-    marginTop: spacing.xs,
-  },
+  container: { backgroundColor: colors.white, paddingHorizontal: spacing.md, paddingVertical: spacing.sm, borderBottomWidth: 1, borderBottomColor: colors.borderLight },
+  topRow: { flexDirection: 'row', alignItems: 'center', height: 44 },
+  backButton: { width: 36, height: 36, borderRadius: 18, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' },
+  backIcon: { fontSize: 20, color: colors.text },
+  placeholder: { width: 36 },
+  center: { flex: 1, alignItems: 'center', paddingHorizontal: spacing.sm },
+  title: { ...typography.h4 },
+  subtitle: { ...typography.caption, color: colors.textSecondary, marginTop: 1 },
+  actionButton: { width: 36, height: 36, borderRadius: 18, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' },
+  actionIcon: { fontSize: 18 },
 });

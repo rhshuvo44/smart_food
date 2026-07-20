@@ -1,5 +1,5 @@
-import { View, Text } from 'react-native';
-import { colors } from '../../constants';
+import { View, Text, StyleSheet } from 'react-native';
+import { colors, spacing, borderRadius } from '../../constants';
 
 interface StatusBadgeProps {
   status: string;
@@ -7,45 +7,36 @@ interface StatusBadgeProps {
   size?: 'sm' | 'md';
 }
 
-const DEFAULT_COLOR_MAP: Record<string, string> = {
+const defaultColorMap: Record<string, string> = {
   pending: colors.warning,
-  confirmed: colors.primary,
-  preparing: colors.primary,
-  ready: colors.success,
-  out_for_delivery: '#17A2B8',
+  confirmed: colors.info,
+  preparing: colors.secondary,
+  ready: colors.info,
+  out_for_delivery: colors.primary,
   delivered: colors.success,
   cancelled: colors.error,
   active: colors.success,
-  inactive: colors.error,
+  inactive: colors.textTertiary,
   approved: colors.success,
-  rejected: colors.error,
+  suspended: colors.warning,
 };
 
 export function StatusBadge({ status, colorMap, size = 'sm' }: StatusBadgeProps) {
-  const map = { ...DEFAULT_COLOR_MAP, ...colorMap };
-  const color = map[status] || colors.textSecondary;
-  const isSmall = size === 'sm';
-
+  const map = { ...defaultColorMap, ...colorMap };
+  const color = map[status.toLowerCase()] || colors.textSecondary;
+  const label = status.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
   return (
-    <View
-      style={{
-        alignSelf: 'flex-start',
-        paddingHorizontal: isSmall ? 8 : 12,
-        paddingVertical: isSmall ? 2 : 4,
-        borderRadius: 9999,
-        backgroundColor: color + '20',
-      }}
-    >
-      <Text
-        style={{
-          fontSize: isSmall ? 11 : 13,
-          fontWeight: '600',
-          color,
-          textTransform: 'capitalize' as const,
-        }}
-      >
-        {status.replace(/_/g, ' ')}
-      </Text>
+    <View style={[styles.badge, { backgroundColor: color + '20', borderColor: color }, size === 'md' && styles.badgeMd]}>
+      <View style={[styles.dot, { backgroundColor: color }]} />
+      <Text style={[styles.text, { color }, size === 'md' && styles.textMd]}>{label}</Text>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  badge: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: spacing.sm, paddingVertical: 3, borderRadius: borderRadius.sm, borderWidth: 1, alignSelf: 'flex-start' },
+  badgeMd: { paddingHorizontal: spacing.md, paddingVertical: 5 },
+  dot: { width: 6, height: 6, borderRadius: 3, marginRight: 5 },
+  text: { fontSize: 11, fontWeight: '600' },
+  textMd: { fontSize: 13 },
+});

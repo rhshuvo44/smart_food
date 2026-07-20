@@ -1,0 +1,51 @@
+{
+  "cli": {
+    "version": ">= 3.0.0"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "channel": "development",
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://smartfood-production-4f87.up.railway.app/api/v1",
+        "EXPO_PUBLIC_GOOGLE_MAPS_API_KEY": "your_google_maps_api_key"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "channel": "preview",
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://smartfood-production-4f87.up.railway.app/api/v1",
+        "EXPO_PUBLIC_GOOGLE_MAPS_API_KEY": "your_google_maps_api_key"
+      }
+    },
+    "production": {
+      "channel": "production",
+      "android": {
+        "buildType": "app-bundle"
+      },
+      "ios": {
+        "distribution": "store"
+      },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://smartfood-production-4f87.up.railway.app/api/v1",
+        "EXPO_PUBLIC_GOOGLE_MAPS_API_KEY": "your_google_maps_api_key"
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "android": {
+        "serviceAccountKeyPath": "./service-account-key.json"
+      },
+      "ios": {
+        "appleId": "your-apple-id@example.com",
+        "ascAppId": "your-asc-app-id"
+      }
+    }
+  }
+}

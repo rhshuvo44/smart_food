@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import socketService from '../services/socket';
-import api from '../services/api';
+import socketService from '../../services/socket';
+import api from '../../services/api';
 
 export interface DeliveryTrackingInfo {
   orderId: string;

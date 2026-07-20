@@ -1,6 +1,6 @@
 import { useEffect, useRef, useCallback } from 'react';
-import { View, FlatList, Text, KeyboardAvoidingView, Platform } from 'react-native';
-import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
+import { FlatList, Text, KeyboardAvoidingView, Platform } from 'react-native';
+import { Stack, useLocalSearchParams } from 'expo-router';
 import { useChatStore } from '../../stores/chat.store';
 import { ChatBubble } from '../../components/chat/ChatBubble';
 import { ChatInput } from '../../components/chat/ChatInput';
@@ -10,7 +10,6 @@ import { useAuthStore } from '../../stores/auth.store';
 
 export default function ChatScreen() {
   const { conversationId } = useLocalSearchParams<{ conversationId: string }>();
-  const router = useRouter();
   const flatListRef = useRef<FlatList>(null);
   const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const inputDisabledRef = useRef(false);
@@ -70,8 +69,8 @@ export default function ChatScreen() {
       if (!result.success) {
         // Fallback to REST API
         try {
-          const api = await import('../../services/api').then((m) => m.default);
-          await api.post(`/conversations/${conversationId}/messages`, { content: text });
+          const { default: apiClient } = await import('../../services/api.js');
+          await (apiClient as any).post(`/conversations/${conversationId}/messages`, { content: text });
         } catch {
           // Silent fallback
         }

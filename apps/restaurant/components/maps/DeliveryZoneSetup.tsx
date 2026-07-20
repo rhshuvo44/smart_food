@@ -36,7 +36,6 @@ interface DeliveryZoneSetupProps {
 }
 
 export default function DeliveryZoneSetup({
-  restaurantId,
   initialZone,
   onSave,
   onCancel,

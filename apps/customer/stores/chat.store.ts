@@ -21,7 +21,7 @@ interface ChatState {
   setTyping: (conversationId: string, userId: string, userRole: string, isTyping: boolean) => void;
 }
 
-export const useChatStore = create<ChatState>((set, get) => ({
+export const useChatStore = create<ChatState>((set) => ({
   conversations: [],
   currentConversationId: null,
   messages: {},

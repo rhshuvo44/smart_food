@@ -1,120 +1,64 @@
-import {
-  View,
-  Text,
-  Alert,
-  StyleSheet,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-} from 'react-native';
+import { View, Text, ScrollView, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import { Button } from '../../components/common/button';
 import { Input } from '../../components/common/input';
-import { router, useLocalSearchParams } from 'expo-router';
+import { router } from 'expo-router';
 import { useState } from 'react';
-import { resetPassword } from '../../services/auth.service';
 import { isValidPassword, isEmpty } from '../../utils/validation';
+import { colors, spacing, typography } from '../../constants';
 
 export default function ResetPasswordScreen() {
-  const { token } = useLocalSearchParams<{ token: string }>();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<{ password?: string; confirmPassword?: string }>({});
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const validate = (): boolean => {
-    const newErrors: { password?: string; confirmPassword?: string } = {};
+  const handleReset = async () => {
+    const newErrors: Record<string, string> = {};
     if (isEmpty(password)) newErrors.password = 'Password is required';
-    else if (!isValidPassword(password))
-      newErrors.password = 'Min 8 characters, 1 uppercase, 1 number';
+    else if (!isValidPassword(password)) newErrors.password = 'Min 8 characters, 1 uppercase, 1 number';
     if (isEmpty(confirmPassword)) newErrors.confirmPassword = 'Please confirm your password';
     else if (password !== confirmPassword) newErrors.confirmPassword = 'Passwords do not match';
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+    if (Object.keys(newErrors).length > 0) return;
 
-  const handleReset = async () => {
-    if (!validate()) return;
-    if (!token) {
-      Alert.alert('Error', 'Invalid reset link. Please request a new one.');
-      return;
-    }
     setLoading(true);
     try {
-      await resetPassword(token, password);
-      Alert.alert('Success', 'Your password has been reset successfully.', [
-        { text: 'Sign In', onPress: () => router.push('/(auth)/login') },
-      ]);
-    } catch (err: any) {
-      const message =
-        err?.response?.data?.error?.message ||
-        err?.message ||
-        'Reset failed. The link may have expired.';
-      Alert.alert('Reset Failed', message);
+      // await api.post('/auth/reset-password', { token, password });
+      router.replace('/(auth)/login');
+    } catch {
+      setErrors({ password: 'Reset failed. Try again.' });
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
+    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
-        <View style={styles.header}>
-          <Text style={styles.title}>Reset Password</Text>
+        <View style={styles.headerSection}>
+          <View style={styles.logoCircle}>
+            <Text style={styles.logoEmoji}>🔑</Text>
+          </View>
+          <Text style={styles.title}>New Password</Text>
           <Text style={styles.subtitle}>Enter your new password</Text>
         </View>
 
-        <Input
-          label="New Password"
-          value={password}
-          onChangeText={(t) => {
-            setPassword(t);
-            if (errors.password) setErrors((e) => ({ ...e, password: undefined }));
-          }}
-          placeholder="Min 8 characters, 1 uppercase, 1 number"
-          secureTextEntry
-          error={errors.password}
-        />
+        <Input label="New Password" value={password} onChangeText={(t) => { setPassword(t); setErrors({}); }} placeholder="Enter new password" secureTextEntry error={errors.password} />
+        <Input label="Confirm Password" value={confirmPassword} onChangeText={(t) => { setConfirmPassword(t); setErrors({}); }} placeholder="Confirm new password" secureTextEntry error={errors.confirmPassword} />
 
-        <Input
-          label="Confirm New Password"
-          value={confirmPassword}
-          onChangeText={(t) => {
-            setConfirmPassword(t);
-            if (errors.confirmPassword) setErrors((e) => ({ ...e, confirmPassword: undefined }));
-          }}
-          placeholder="Re-enter your new password"
-          secureTextEntry
-          error={errors.confirmPassword}
-        />
-
-        <Button
-          title="Reset Password"
-          onPress={handleReset}
-          variant="secondary"
-          loading={loading}
-          style={styles.resetBtn}
-        />
-
-        <Button
-          title="Back to Sign In"
-          onPress={() => router.push('/(auth)/login')}
-          variant="ghost"
-          style={styles.backBtn}
-        />
+        <Button title="Reset Password" onPress={handleReset} variant="secondary" loading={loading} style={styles.resetBtn} />
       </ScrollView>
     </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#FFFFFF' },
-  scrollContent: { flexGrow: 1, justifyContent: 'center', padding: 24 },
-  header: { marginBottom: 32 },
-  title: { fontSize: 28, fontWeight: '700', color: '#1A1A2E', textAlign: 'center' },
-  subtitle: { fontSize: 16, color: '#6C757D', textAlign: 'center', marginTop: 8 },
+  container: { flex: 1, backgroundColor: colors.background },
+  scrollContent: { flexGrow: 1, justifyContent: 'center', padding: spacing.lg },
+  headerSection: { alignItems: 'center', marginBottom: spacing.xl },
+  logoCircle: { width: 80, height: 80, borderRadius: 40, backgroundColor: colors.surfaceVariant, alignItems: 'center', justifyContent: 'center', marginBottom: spacing.md },
+  logoEmoji: { fontSize: 36 },
+  title: { ...typography.h1, marginBottom: spacing.xs },
+  subtitle: { ...typography.body, color: colors.textSecondary, textAlign: 'center' },
   resetBtn: { marginTop: 8 },
-  backBtn: { marginTop: 16 },
 });

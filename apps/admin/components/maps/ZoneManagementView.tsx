@@ -9,9 +9,9 @@ import {
   Alert,
   Platform,
 } from 'react-native';
-import MapView, { Polygon, Marker } from 'react-native-maps';
+import MapView, { Polygon } from 'react-native-maps';
 import api from '../../services/api';
-import { Loading } from '../../components/common/loading';
+
 
 interface DeliveryZone {
   id: string;
@@ -124,7 +124,7 @@ export function ZoneManagementView() {
     setShowForm(true);
   }, []);
 
-  if (isLoading) return <Loading message="Loading zones..." />;
+  if (isLoading) return <Text style={{ textAlign: 'center', marginTop: 40, color: '#6C757D' }}>Loading zones...</Text>;
 
   const region = { latitude: 23.8103, longitude: 90.4125, latitudeDelta: 0.1, longitudeDelta: 0.1 };
 

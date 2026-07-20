@@ -1,87 +1,69 @@
-import { View, Text } from 'react-native';
+import { useState } from 'react';
+import { View, Text, ScrollView, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import { Button } from '../../components/common/button';
 import { Input } from '../../components/common/input';
-import { useState } from 'react';
 import { router } from 'expo-router';
 import { loginUser } from '../../services/auth.service';
+import { isValidEmail, isEmpty } from '../../utils/validation';
+import { colors, spacing, typography } from '../../constants';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+
+  function validate(): boolean {
+    const newErrors: { email?: string; password?: string } = {};
+    if (isEmpty(email)) newErrors.email = 'Email is required';
+    else if (!isValidEmail(email)) newErrors.email = 'Invalid email format';
+    if (isEmpty(password)) newErrors.password = 'Password is required';
+    else if (password.length < 8) newErrors.password = 'Must be at least 8 characters';
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  }
 
   async function handleLogin() {
-    if (!email.trim() || !password.trim()) {
-      setError('Please enter email and password');
-      return;
-    }
+    if (!validate()) return;
     setLoading(true);
-    setError('');
-
     try {
       await loginUser(email, password);
       router.replace('/(tabs)');
-    } catch (err: unknown) {
-      const message =
-        (err && typeof err === 'object' && 'response' in err
-          ? (err as { response: { data: { error: { message: string } } } }).response?.data?.error
-              ?.message
-          : null) || 'Login failed. Please try again.';
-      setError(message);
+    } catch {
+      setErrors({ password: 'Invalid credentials' });
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', padding: 24, backgroundColor: '#FFFFFF' }}>
-      <Text
-        style={{
-          fontSize: 28,
-          fontWeight: '700',
-          color: '#1A1A2E',
-          marginBottom: 8,
-          textAlign: 'center',
-        }}
-      >
-        Admin Panel
-      </Text>
-      <Text style={{ fontSize: 16, color: '#6C757D', marginBottom: 32, textAlign: 'center' }}>
-        Platform administration
-      </Text>
-      {error ? (
-        <Text style={{ fontSize: 14, color: '#DC3545', textAlign: 'center', marginBottom: 16 }}>
-          {error}
-        </Text>
-      ) : null}
-      <Input
-        label="Email"
-        value={email}
-        onChangeText={(t) => {
-          setEmail(t);
-          setError('');
-        }}
-        placeholder="Admin email"
-        keyboardType="email-address"
-      />
-      <Input
-        label="Password"
-        value={password}
-        onChangeText={(t) => {
-          setPassword(t);
-          setError('');
-        }}
-        placeholder="Password"
-        secureTextEntry
-      />
-      <Button
-        title="Sign In"
-        onPress={handleLogin}
-        loading={loading}
-        variant="primary"
-        style={{ marginTop: 8 }}
-      />
-    </View>
+    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+      <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
+        <View style={styles.headerSection}>
+          <View style={styles.logoCircle}>
+            <Text style={styles.logoEmoji}>⚙️</Text>
+          </View>
+          <Text style={styles.title}>Admin Login</Text>
+          <Text style={styles.subtitle}>Sign in to manage the platform</Text>
+        </View>
+        <View style={styles.form}>
+          <Input label="Email" value={email} onChangeText={(t) => { setEmail(t); setErrors((e) => ({ ...e, email: undefined })); }} placeholder="Enter your email" keyboardType="email-address" error={errors.email} />
+          <Input label="Password" value={password} onChangeText={(t) => { setPassword(t); setErrors((e) => ({ ...e, password: undefined })); }} placeholder="Enter your password" secureTextEntry error={errors.password} />
+          <Button title="Sign In" onPress={handleLogin} variant="primary" loading={loading} style={styles.signInButton} />
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: colors.background },
+  content: { padding: spacing.lg, flexGrow: 1, justifyContent: 'center' },
+  headerSection: { alignItems: 'center', marginBottom: spacing.xl },
+  logoCircle: { width: 80, height: 80, borderRadius: 40, backgroundColor: colors.surfaceVariant, alignItems: 'center', justifyContent: 'center', marginBottom: spacing.md },
+  logoEmoji: { fontSize: 36 },
+  title: { ...typography.h1, marginBottom: spacing.xs },
+  subtitle: { ...typography.body, color: colors.textSecondary, textAlign: 'center' },
+  form: { marginBottom: spacing.md },
+  signInButton: { marginTop: spacing.sm },
+});

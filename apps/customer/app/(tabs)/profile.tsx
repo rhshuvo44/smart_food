@@ -1,112 +1,176 @@
-import { View, Text, Alert } from 'react-native';
-import { Button } from '../../components/common/button';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
+import { Button } from '../../components/common/button';
+import { Avatar } from '../../components/common/avatar';
 import { useAuthStore } from '../../stores/auth.store';
 import { logoutUser } from '../../services/auth.service';
+import { colors, spacing, typography, shadows } from '../../constants';
+
+const menuSections = [
+  {
+    title: 'Account',
+    items: [
+      { icon: '📍', label: 'Saved Addresses', route: '/checkout/address' },
+      { icon: '💳', label: 'Payment Methods', route: '/checkout/payment' },
+      { icon: '⭐', label: 'Favorites', route: '' },
+    ],
+  },
+  {
+    title: 'Settings',
+    items: [
+      { icon: '🔔', label: 'Notifications', route: '' },
+      { icon: '🔒', label: 'Privacy', route: '' },
+      { icon: '❓', label: 'Help & Support', route: '' },
+    ],
+  },
+];
 
 export default function ProfileScreen() {
   const { isAuthenticated, user } = useAuthStore();
 
   async function handleLogout() {
-    Alert.alert('Sign Out', 'Are you sure you want to sign out?', [
-      { text: 'Cancel', style: 'cancel' },
-      {
-        text: 'Sign Out',
-        style: 'destructive',
-        onPress: async () => {
-          await logoutUser();
-          router.replace('/(auth)/login');
-        },
-      },
-    ]);
+    await logoutUser();
+    router.replace('/(auth)/login');
   }
 
   if (!isAuthenticated) {
     return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#FFFFFF',
-          padding: 24,
-        }}
-      >
-        <Text style={{ fontSize: 48, marginBottom: 16 }}>👤</Text>
-        <Text style={{ fontSize: 24, fontWeight: '700', color: '#1A1A2E', marginBottom: 8 }}>
-          Profile
-        </Text>
-        <Text style={{ fontSize: 16, color: '#6C757D', marginBottom: 32, textAlign: 'center' }}>
-          Sign in to manage your account.
-        </Text>
-        <Button title="Sign In" onPress={() => router.push('/(auth)/login')} variant="primary" />
+      <View style={[styles.container, styles.centered]}>
+        <View style={styles.illustrationCircle}>
+          <Text style={styles.illustrationIcon}>👤</Text>
+        </View>
+        <Text style={styles.signInTitle}>Profile</Text>
+        <Text style={styles.signInSubtitle}>Sign in to manage your account and orders.</Text>
+        <Button
+          title="Sign In"
+          onPress={() => router.push('/(auth)/login')}
+          variant="primary"
+          style={styles.signInButton}
+        />
+        <Button
+          title="Create an Account"
+          onPress={() => router.push('/(auth)/register')}
+          variant="ghost"
+          style={styles.signUpButton}
+        />
       </View>
     );
   }
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: '#FFFFFF',
-        padding: 24,
-      }}
-    >
-      <View style={{ alignItems: 'center', marginTop: 48, marginBottom: 32 }}>
-        <View
-          style={{
-            width: 80,
-            height: 80,
-            borderRadius: 40,
-            backgroundColor: '#FF6B35',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginBottom: 16,
-          }}
-        >
-          <Text style={{ fontSize: 32, color: '#FFFFFF', fontWeight: '700' }}>
-            {user?.firstName?.charAt(0)?.toUpperCase()}
-            {user?.lastName?.charAt(0)?.toUpperCase()}
-          </Text>
-        </View>
-        <Text style={{ fontSize: 24, fontWeight: '700', color: '#1A1A2E' }}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      <View style={styles.profileHeader}>
+        <Avatar
+          name={`${user?.firstName || ''} ${user?.lastName || ''}`}
+          size={72}
+        />
+        <Text style={styles.profileName}>
           {user?.firstName} {user?.lastName}
         </Text>
-        <Text style={{ fontSize: 16, color: '#6C757D', marginTop: 4 }}>{user?.email}</Text>
+        <Text style={styles.profileEmail}>{user?.email}</Text>
       </View>
 
-      <View
-        style={{
-          backgroundColor: '#F8F9FA',
-          borderRadius: 12,
-          padding: 16,
-          marginBottom: 16,
-        }}
-      >
-        <ProfileRow label="Phone" value={user?.phone || 'Not set'} />
-        <ProfileRow label="Role" value={user?.role || 'Customer'} />
-        <ProfileRow
-          label="Member Since"
-          value={user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A'}
+      <View style={styles.statsRow}>
+        <View style={styles.statCard}>
+          <Text style={styles.statNumber}>0</Text>
+          <Text style={styles.statLabel}>Orders</Text>
+        </View>
+        <View style={styles.statDivider} />
+        <View style={styles.statCard}>
+          <Text style={styles.statNumber}>0</Text>
+          <Text style={styles.statLabel}>Favorites</Text>
+        </View>
+        <View style={styles.statDivider} />
+        <View style={styles.statCard}>
+          <Text style={styles.statNumber}>$0</Text>
+          <Text style={styles.statLabel}>Saved</Text>
+        </View>
+      </View>
+
+      {menuSections.map((section) => (
+        <View key={section.title} style={styles.menuSection}>
+          <Text style={styles.menuSectionTitle}>{section.title}</Text>
+          <View style={styles.menuCard}>
+            {section.items.map((item, iIdx) => (
+              <TouchableOpacity
+                key={item.label}
+                style={[styles.menuItem, iIdx < section.items.length - 1 && styles.menuItemBorder]}
+                onPress={() => item.route && router.push(item.route as any)}
+                activeOpacity={0.7}
+              >
+                <Text style={styles.menuIcon}>{item.icon}</Text>
+                <Text style={styles.menuLabel}>{item.label}</Text>
+                <Text style={styles.menuChevron}>›</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+      ))}
+
+      <View style={styles.logoutSection}>
+        <Button
+          title="Sign Out"
+          onPress={handleLogout}
+          variant="ghost"
+          style={styles.logoutButton}
+          textStyle={styles.logoutText}
         />
       </View>
-
-      <Button
-        title="Sign Out"
-        onPress={handleLogout}
-        variant="ghost"
-        style={{ marginTop: 'auto', marginBottom: 24, borderColor: '#DC3545' }}
-        textStyle={{ color: '#DC3545' }}
-      />
-    </View>
+    </ScrollView>
   );
 }
 
-function ProfileRow({ label, value }: { label: string; value: string }) {
-  return (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 8 }}>
-      <Text style={{ fontSize: 16, color: '#6C757D' }}>{label}</Text>
-      <Text style={{ fontSize: 16, color: '#1A1A2E', fontWeight: '500' }}>{value}</Text>
-    </View>
-  );
-}
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: colors.background },
+  centered: { justifyContent: 'center', alignItems: 'center', padding: spacing.lg },
+  illustrationCircle: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: colors.surfaceVariant,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: spacing.lg,
+  },
+  illustrationIcon: { fontSize: 48 },
+  signInTitle: { ...typography.h2, marginBottom: spacing.sm },
+  signInSubtitle: { ...typography.body, color: colors.textSecondary, textAlign: 'center', marginBottom: spacing.xl },
+  signInButton: { width: '100%', marginBottom: spacing.sm },
+  signUpButton: { width: '100%' },
+  profileHeader: { alignItems: 'center', padding: spacing.xl },
+  profileName: { ...typography.h3, marginTop: spacing.md },
+  profileEmail: { ...typography.bodySmall, color: colors.textSecondary, marginTop: 4 },
+  statsRow: {
+    flexDirection: 'row',
+    marginHorizontal: spacing.md,
+    backgroundColor: colors.surface,
+    borderRadius: spacing.lg,
+    padding: spacing.md,
+    marginBottom: spacing.md,
+    ...shadows.sm,
+  },
+  statCard: { flex: 1, alignItems: 'center' },
+  statNumber: { ...typography.h3, color: colors.primary },
+  statLabel: { fontSize: 12, color: colors.textSecondary, marginTop: 2 },
+  statDivider: { width: 1, backgroundColor: colors.border },
+  menuSection: { paddingHorizontal: spacing.md, marginBottom: spacing.md },
+  menuSectionTitle: { fontSize: 13, fontWeight: '600', color: colors.textTertiary, textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: spacing.sm },
+  menuCard: {
+    backgroundColor: colors.white,
+    borderRadius: spacing.md,
+    overflow: 'hidden',
+    ...shadows.sm,
+  },
+  menuItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: spacing.md,
+  },
+  menuItemBorder: { borderBottomWidth: 1, borderBottomColor: colors.borderLight },
+  menuIcon: { fontSize: 20, marginRight: spacing.md, width: 28 },
+  menuLabel: { flex: 1, fontSize: 15, color: colors.text },
+  menuChevron: { fontSize: 20, color: colors.textTertiary },
+  logoutSection: { padding: spacing.md, paddingBottom: spacing.xxl },
+  logoutButton: { borderColor: colors.error },
+  logoutText: { color: colors.error },
+});

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
-import MapView, { Polygon, Marker } from 'react-native-maps';
+import MapView, { Polygon } from 'react-native-maps';
 import api from '../../services/api';
 import { Loading } from '../../components/common/loading';
 import { useCurrentLocation } from '../../hooks/useCurrentLocation';

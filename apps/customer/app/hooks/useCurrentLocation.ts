@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import * as Location from 'expo-location';
-import { Platform } from 'react-native';
 
 export interface CurrentLocation {
   latitude: number;
@@ -84,21 +83,29 @@ export function useCurrentLocation(watch: boolean = false): UseCurrentLocationRe
   useEffect(() => {
     if (!watch || permissionStatus !== Location.PermissionStatus.GRANTED) return;
 
-    subscriberRef.current = Location.watchPositionAsync(
-      {
-        accuracy: Location.Accuracy.Balanced,
-        timeInterval: 10000,
-        distanceInterval: 50,
-      },
-      (loc) => {
-        setLocation({
-          latitude: loc.coords.latitude,
-          longitude: loc.coords.longitude,
-        });
-      },
-    );
+    let cancelled = false;
+
+    (async () => {
+      const sub = await Location.watchPositionAsync(
+        {
+          accuracy: Location.Accuracy.Balanced,
+          timeInterval: 10000,
+          distanceInterval: 50,
+        },
+        (loc) => {
+          setLocation({
+            latitude: loc.coords.latitude,
+            longitude: loc.coords.longitude,
+          });
+        },
+      );
+      if (!cancelled) {
+        subscriberRef.current = sub;
+      }
+    })();
 
     return () => {
+      cancelled = true;
       if (subscriberRef.current) {
         subscriberRef.current.remove();
       }

@@ -1,5 +1,5 @@
 import axios, { type AxiosInstance, type InternalAxiosRequestConfig } from 'axios';
-import * as SecureStore from 'expo-secure-store';
+import { removeSecureItem, getAccessToken as getStoredAccessToken } from '../utils/storage';
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
 
@@ -29,15 +29,15 @@ api.interceptors.response.use(
   async (error) => {
     if (error.response?.status === 401) {
       setAccessToken(null);
-      await SecureStore.deleteItemAsync('accessToken');
-      await SecureStore.deleteItemAsync('refreshToken');
+      await removeSecureItem('accessToken');
+      await removeSecureItem('refreshToken');
     }
     return Promise.reject(error);
   },
 );
 
 export async function loadStoredTokens(): Promise<void> {
-  const token = await SecureStore.getItemAsync('accessToken');
+  const token = await getStoredAccessToken();
   if (token) {
     setAccessToken(token);
   }

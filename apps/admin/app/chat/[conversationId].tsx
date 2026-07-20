@@ -1,8 +1,9 @@
 import { useEffect, useRef, useCallback } from 'react';
-import { View, FlatList, Text, KeyboardAvoidingView, Platform } from 'react-native';
+import { FlatList, Text, KeyboardAvoidingView, Platform } from 'react-native';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { useChatStore } from '../../stores/chat.store';
 import { ChatBubble } from '../../components/chat/ChatBubble';
+import api from '../../services/api';
 import { ChatInput } from '../../components/chat/ChatInput';
 import { LoadingScreen } from '../../components/common/loading-screen';
 import socketService from '../../services/socket';
@@ -61,7 +62,6 @@ export default function ChatScreen() {
       const result = await socketService.sendChatMessage(conversationId, text);
       if (!result.success) {
         try {
-          const api = await import('../../services/api').then((m) => m.default);
           await api.post(`/conversations/${conversationId}/messages`, { content: text });
         } catch {}
       }

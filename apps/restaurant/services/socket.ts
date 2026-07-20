@@ -1,14 +1,12 @@
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef } from 'react';
 import { io, type Socket } from 'socket.io-client';
 import { getAccessToken } from '../utils/storage';
 
-type SocketEvent = 'order:status-changed' | 'order:new' | 'notification:new';
 type EventCallback = (data: any) => void;
 
 class SocketService {
   private socket: Socket | null = null;
   private listeners: Map<string, Set<EventCallback>> = new Map();
-  private reconnectAttempts = 0;
   private maxReconnectAttempts = 10;
   private baseUrl: string;
 
@@ -32,9 +30,7 @@ class SocketService {
       reconnectionDelayMax: 30000,
     });
 
-    this.socket.on('connect', () => {
-      this.reconnectAttempts = 0;
-    });
+    this.socket.on('connect', () => {});
 
     this.socket.on('disconnect', () => {});
 

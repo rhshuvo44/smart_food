@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Platform } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import { useGeocode } from '../../hooks/useGeocode';
+import { useGeocode } from '../../app/hooks/useGeocode';
 
 export interface PickedLocation {
   lat: number;

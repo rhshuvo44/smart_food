@@ -21,7 +21,7 @@ interface ChatState {
   setTyping: (conversationId: string, userId: string, userRole: string, isTyping: boolean) => void;
 }
 
-export const useChatStore = create<ChatState>((set, get) => ({
+export const useChatStore = create<ChatState>((set) => ({
   conversations: [],
   currentConversationId: null,
   messages: {},
@@ -73,14 +73,13 @@ export const useChatStore = create<ChatState>((set, get) => ({
           ...state.messages,
           [conversationId]: [message, ...existing].slice(0, 200),
         },
+        conversations: state.conversations.map((c) =>
+          c.id === conversationId
+            ? { ...c, lastMessage: { content: message.content, senderId: message.senderId, senderRole: message.senderRole, timestamp: message.createdAt } }
+            : c,
+        ),
       };
     });
-      conversations: state.conversations.map((c) =>
-        c.id === conversationId
-          ? { ...c, lastMessage: { content: message.content, senderId: message.senderId, senderRole: message.senderRole, timestamp: message.createdAt } }
-          : c,
-      ),
-    }));
   },
 
   setCurrentConversation: (id) => set({ currentConversationId: id }),

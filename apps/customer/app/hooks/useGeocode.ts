@@ -1,8 +1,7 @@
-import { useState, useCallback, useRef } from 'react';
-import api from '../services/api';
+import { useState, useCallback } from 'react';
+import api from '../../services/api';
 
 const cache = new Map<string, { lat: number; lng: number; formattedAddress: string }>();
-const CACHE_TTL = 24 * 60 * 60 * 1000;
 
 interface UseGeocodeReturn {
   searchAddress: (query: string) => Promise<Array<{ label: string; lat: number; lng: number }>>;
@@ -14,7 +13,6 @@ interface UseGeocodeReturn {
 export function useGeocode(): UseGeocodeReturn {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const searchAddress = useCallback(async (query: string) => {
     if (!query.trim()) return [];

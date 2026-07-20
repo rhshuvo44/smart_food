@@ -1,13 +1,31 @@
 {
   "expo": {
     "name": "SmartFood Admin",
-    "slug": "smartfood-admin",
+    "slug": "smartfoodadmin",
     "version": "1.0.0",
     "orientation": "portrait",
     "scheme": "smartfood-admin",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    "splash": { "backgroundColor": "#1A1A2E" },
+    "icon": "./assets/images/icon.png",
+    "splash": {
+      "image": "./assets/images/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1A1A2E"
+    },
+    "updates": {
+      "enabled": true,
+      "checkAutomatically": "ON_LOAD",
+      "fallbackToCacheTimeout": 0
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "219bc587-11aa-448a-a52e-facfa3504794"
+      }
+    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.smartfood.admin",
@@ -17,12 +35,17 @@
       }
     },
     "android": {
-      "adaptiveIcon": { "backgroundColor": "#1A1A2E" },
+      "adaptiveIcon": {
+        "backgroundColor": "#1A1A2E"
+      },
       "package": "com.smartfood.admin",
       "permissions": [
         "ACCESS_FINE_LOCATION",
-        "ACCESS_COARSE_LOCATION"
-      ]
+        "ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ],
+      "googleMapsApiKey": "your_google_maps_api_key"
     },
     "plugins": [
       "expo-router",
@@ -32,7 +55,22 @@
         {
           "locationWhenInUsePermission": "SmartFood Admin uses your location to monitor deliveries and manage zones."
         }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": false,
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34,
+            "buildToolsVersion": "34.0.0"
+          },
+          "ios": {
+            "deploymentTarget": "16.4"
+          }
+        }
       ]
-    ]
+    ],
+    "owner": "rhshuvo44s-team"
   }
 }

@@ -19,6 +19,9 @@ import { handleStripeWebhook } from './domains/payment/payment.service.js';
 export function createApp(): express.Application {
   const app = express();
 
+  // Trust proxy — app runs behind a load balancer/reverse proxy
+  app.set('trust proxy', true);
+
   // Security headers
   app.use(helmet());
 
