@@ -37,7 +37,10 @@ export default function LoginScreen() {
   }
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
         <View style={styles.headerSection}>
           <View style={styles.logoCircle}>
@@ -47,9 +50,35 @@ export default function LoginScreen() {
           <Text style={styles.subtitle}>Sign in to manage the platform</Text>
         </View>
         <View style={styles.form}>
-          <Input label="Email" value={email} onChangeText={(t) => { setEmail(t); setErrors((e) => ({ ...e, email: undefined })); }} placeholder="Enter your email" keyboardType="email-address" error={errors.email} />
-          <Input label="Password" value={password} onChangeText={(t) => { setPassword(t); setErrors((e) => ({ ...e, password: undefined })); }} placeholder="Enter your password" secureTextEntry error={errors.password} />
-          <Button title="Sign In" onPress={handleLogin} variant="primary" loading={loading} style={styles.signInButton} />
+          <Input
+            label="Email"
+            value={email}
+            onChangeText={(t) => {
+              setEmail(t);
+              setErrors((e) => ({ ...e, email: undefined }));
+            }}
+            placeholder="Enter your email"
+            keyboardType="email-address"
+            error={errors.email}
+          />
+          <Input
+            label="Password"
+            value={password}
+            onChangeText={(t) => {
+              setPassword(t);
+              setErrors((e) => ({ ...e, password: undefined }));
+            }}
+            placeholder="Enter your password"
+            secureTextEntry
+            error={errors.password}
+          />
+          <Button
+            title="Sign In"
+            onPress={handleLogin}
+            variant="primary"
+            loading={loading}
+            style={styles.signInButton}
+          />
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -60,7 +89,15 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
   content: { padding: spacing.lg, flexGrow: 1, justifyContent: 'center' },
   headerSection: { alignItems: 'center', marginBottom: spacing.xl },
-  logoCircle: { width: 80, height: 80, borderRadius: 40, backgroundColor: colors.surfaceVariant, alignItems: 'center', justifyContent: 'center', marginBottom: spacing.md },
+  logoCircle: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: colors.surfaceVariant,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: spacing.md,
+  },
   logoEmoji: { fontSize: 36 },
   title: { ...typography.h1, marginBottom: spacing.xs },
   subtitle: { ...typography.body, color: colors.textSecondary, textAlign: 'center' },

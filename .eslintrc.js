@@ -41,7 +41,7 @@ module.exports = {
       },
     },
     {
-      files: ['backend/dev-start.ts', 'backend/seeds/**/*.ts'],
+      files: ['backend/dev-start.ts', 'backend/seed-dev.ts', 'backend/seeds/**/*.ts'],
       parserOptions: {
         project: null,
       },

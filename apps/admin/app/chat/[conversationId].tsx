@@ -26,8 +26,8 @@ export default function ChatScreen() {
   } = useChatStore();
   const user = useAuthStore((s) => s.user);
   const conversation = conversations.find((c) => c.id === conversationId);
-  const msgs = messages[conversationId!] || [];
-  const typing = typingUsers[conversationId!] || [];
+  const msgs = messages[conversationId] || [];
+  const typing = typingUsers[conversationId] || [];
 
   useEffect(() => {
     if (!conversationId) return;
@@ -63,7 +63,9 @@ export default function ChatScreen() {
       if (!result.success) {
         try {
           await api.post(`/conversations/${conversationId}/messages`, { content: text });
-        } catch {}
+        } catch {
+          /* fallback to REST API */
+        }
       }
     },
     [conversationId],

@@ -20,10 +20,18 @@ export function StatCard({ icon, value, label, color = colors.primary }: StatCar
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: colors.white, borderRadius: borderRadius.lg, padding: spacing.md,
-    width: 150, borderLeftWidth: 4,
+    backgroundColor: colors.white,
+    borderRadius: borderRadius.lg,
+    padding: spacing.md,
+    width: 150,
+    borderLeftWidth: 4,
     ...Platform.select({
-      ios: { shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.08, shadowRadius: 8 },
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.08,
+        shadowRadius: 8,
+      },
       android: { elevation: 3 },
     }),
   },

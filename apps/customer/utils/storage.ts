@@ -9,7 +9,7 @@ const KEYS = {
   ONBOARDING_SEEN: 'onboarding_seen',
 } as const;
 
-let webStore: Record<string, string> = {};
+const webStore: Record<string, string> = {};
 
 async function getSecureStore() {
   if (isWeb) return null;
@@ -43,7 +43,7 @@ export async function removeSecureItem(key: string): Promise<void> {
   if (SecureStore) {
     await SecureStore.deleteItemAsync(key);
   } else {
-    delete webStore[key];
+    webStore[key] = undefined as unknown as string;
   }
 }
 
@@ -89,12 +89,16 @@ export const secureStorageAdapter = {
   setItem: async (name: string, value: string): Promise<void> => {
     try {
       await storeSecureItem(name, value);
-    } catch {}
+    } catch {
+      /* ignore storage errors */
+    }
   },
   removeItem: async (name: string): Promise<void> => {
     try {
       await removeSecureItem(name);
-    } catch {}
+    } catch {
+      /* ignore storage errors */
+    }
   },
 };
 

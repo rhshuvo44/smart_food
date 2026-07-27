@@ -46,6 +46,7 @@ jest.mock('../../../src/domains/delivery/delivery.service', () => {
 });
 
 import * as deliveryService from '../../../src/domains/delivery/delivery.service';
+import { NotFoundError } from '../../../src/shared/errors.js';
 
 describe('Delivery Controller', () => {
   let app: express.Application;
@@ -165,7 +166,7 @@ describe('Delivery Controller', () => {
 
     it('should return 404 when zone not found', async () => {
       (deliveryService.getZoneById as jest.Mock).mockRejectedValue(
-        new (require('../../../src/shared/errors').NotFoundError)('Delivery zone not found'),
+        new NotFoundError('Delivery zone not found'),
       );
 
       const response = await request(app).get('/api/v1/delivery/zones/nonexistent-id').expect(404);

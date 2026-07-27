@@ -12,7 +12,6 @@ import {
 import MapView, { Polygon } from 'react-native-maps';
 import api from '../../services/api';
 
-
 interface DeliveryZone {
   id: string;
   name: string;
@@ -124,7 +123,10 @@ export function ZoneManagementView() {
     setShowForm(true);
   }, []);
 
-  if (isLoading) return <Text style={{ textAlign: 'center', marginTop: 40, color: '#6C757D' }}>Loading zones...</Text>;
+  if (isLoading)
+    return (
+      <Text style={{ textAlign: 'center', marginTop: 40, color: '#6C757D' }}>Loading zones...</Text>
+    );
 
   const region = { latitude: 23.8103, longitude: 90.4125, latitudeDelta: 0.1, longitudeDelta: 0.1 };
 

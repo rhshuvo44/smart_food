@@ -19,8 +19,16 @@ const BADGE_COLORS = {
 export function Badge({ text, variant = 'primary', size = 'sm' }: BadgeProps) {
   const colorSet = BADGE_COLORS[variant];
   return (
-    <View style={[styles.base, { backgroundColor: colorSet.bg }, size === 'sm' ? styles.sm : styles.md]}>
-      <Text style={[styles.text, { color: colorSet.text }, size === 'sm' ? styles.smText : styles.mdText]}>
+    <View
+      style={[styles.base, { backgroundColor: colorSet.bg }, size === 'sm' ? styles.sm : styles.md]}
+    >
+      <Text
+        style={[
+          styles.text,
+          { color: colorSet.text },
+          size === 'sm' ? styles.smText : styles.mdText,
+        ]}
+      >
         {text}
       </Text>
     </View>

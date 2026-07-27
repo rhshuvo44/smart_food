@@ -20,7 +20,7 @@ function getLastMessage(conversation: IConversation): string {
 }
 
 export function ConversationItem({ conversation, onPress }: ConversationItemProps) {
-  const unread = (conversation as any).unreadCount || 0;
+  const unread = (conversation as unknown as { unreadCount?: number }).unreadCount || 0;
 
   return (
     <TouchableOpacity

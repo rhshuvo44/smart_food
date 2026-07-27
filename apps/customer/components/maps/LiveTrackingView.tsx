@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import MapView, { Marker, Polyline } from 'react-native-maps';
 import { Loading } from '../../components/common/loading';
-import type { DeliveryTrackingInfo } from '../../app/hooks/useDeliveryTracking';
+import type { DeliveryTrackingInfo } from '../../hooks/useDeliveryTracking';
 
 const STATUS_STEPS = ['pending', 'assigned', 'picked_up', 'in_transit', 'delivered'];
 

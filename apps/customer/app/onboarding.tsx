@@ -1,6 +1,7 @@
-import { useState, useRef } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Dimensions, StyleSheet, Animated } from 'react-native';
 import { router } from 'expo-router';
+import { useRef, useState } from 'react';
+import type { FlatList } from 'react-native';
+import { Animated, Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Button } from '../components/common/button';
 import { colors, spacing, typography } from '../constants';
 import { setItem } from '../utils/storage';
@@ -12,13 +13,15 @@ const slides = [
     id: '1',
     emoji: '🍕',
     title: 'Welcome to SmartFood',
-    subtitle: 'Discover the best restaurants in your area and get your favorite food delivered fast.',
+    subtitle:
+      'Discover the best restaurants in your area and get your favorite food delivered fast.',
   },
   {
     id: '2',
     emoji: '🔍',
     title: 'Browse & Explore',
-    subtitle: 'Search from hundreds of restaurants, browse menus, and find exactly what you\'re craving.',
+    subtitle:
+      "Search from hundreds of restaurants, browse menus, and find exactly what you're craving.",
   },
   {
     id: '3',
@@ -77,7 +80,9 @@ export default function OnboardingScreen() {
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         bounces={false}
-        onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], { useNativeDriver: false })}
+        onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], {
+          useNativeDriver: false,
+        })}
         onViewableItemsChanged={onViewableItemsChanged}
         viewabilityConfig={{ viewAreaCoveragePercentThreshold: 50 }}
         scrollEventThrottle={16}
@@ -97,10 +102,7 @@ export default function OnboardingScreen() {
               extrapolate: 'clamp',
             });
             return (
-              <Animated.View
-                key={i}
-                style={[styles.dot, { opacity, transform: [{ scale }] }]}
-              />
+              <Animated.View key={i} style={[styles.dot, { opacity, transform: [{ scale }] }]} />
             );
           })}
         </View>

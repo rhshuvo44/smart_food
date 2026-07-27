@@ -17,7 +17,7 @@ import {
 
 export async function createIntent(req: Request, res: Response): Promise<void> {
   const { orderId, amount, currency } = req.body;
-  const customerId = req.userId!;
+  const customerId = req.userId as string;
 
   const payment = await createPaymentIntent(orderId, customerId, amount, currency);
 
@@ -70,7 +70,7 @@ export async function getByOrder(req: Request, res: Response): Promise<void> {
 
 export async function initSslcommerz(req: Request, res: Response): Promise<void> {
   const { orderId, amount, customerName, customerEmail, customerPhone, currency } = req.body;
-  const customerId = req.userId!;
+  const customerId = req.userId as string;
 
   const result = await initPayment(
     orderId,

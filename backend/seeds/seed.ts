@@ -25,17 +25,21 @@ const SEEDS_URI_FILE = path.resolve(__dirname, '.mongodb-uri');
 let MONGODB_URI: string;
 if (process.env.MONGODB_URI) {
   MONGODB_URI = process.env.MONGODB_URI;
+  // eslint-disable-next-line no-console
   console.log(`[seed] Using URI from process.env.MONGODB_URI: ${MONGODB_URI}`);
 } else {
   try {
     MONGODB_URI = fs.readFileSync(ROOT_URI_FILE, 'utf-8').trim();
+    // eslint-disable-next-line no-console
     console.log(`[seed] Using URI from backend root .mongodb-uri file: ${MONGODB_URI}`);
   } catch {
     try {
       MONGODB_URI = fs.readFileSync(SEEDS_URI_FILE, 'utf-8').trim();
+      // eslint-disable-next-line no-console
       console.log(`[seed] Using URI from seeds .mongodb-uri file: ${MONGODB_URI}`);
     } catch {
       MONGODB_URI = env.MONGODB_URI;
+      // eslint-disable-next-line no-console
       console.log(`[seed] Using URI from env config: ${MONGODB_URI}`);
     }
   }
@@ -49,8 +53,10 @@ export async function seed(): Promise<void> {
 
   const SEED_PASSWORD = process.env.SEED_PASSWORD || `Seed_${crypto.randomUUID().split('-')[0]}!`;
 
+  // eslint-disable-next-line no-console
   console.log('Connecting to MongoDB...');
   await mongoose.connect(MONGODB_URI);
+  // eslint-disable-next-line no-console
   console.log('Connected. Clearing existing data...');
 
   await Promise.all([
@@ -64,6 +70,7 @@ export async function seed(): Promise<void> {
     UserAddress.deleteMany({}),
   ]);
 
+  // eslint-disable-next-line no-console
   console.log('Data cleared. Seeding...');
 
   // ── Users ──────────────────────────────────────────────────────
@@ -120,6 +127,7 @@ export async function seed(): Promise<void> {
     },
   ]);
 
+  // eslint-disable-next-line no-console
   console.log(`Users created: ${await User.countDocuments()}`);
 
   // ── Delivery Zones ──────────────────────────────────────────────
@@ -128,13 +136,15 @@ export async function seed(): Promise<void> {
       name: 'Downtown',
       boundary: {
         type: 'Polygon',
-        coordinates: [[
-          [-73.990, 40.745],
-          [-73.980, 40.745],
-          [-73.980, 40.755],
-          [-73.990, 40.755],
-          [-73.990, 40.745],
-        ]],
+        coordinates: [
+          [
+            [-73.99, 40.745],
+            [-73.98, 40.745],
+            [-73.98, 40.755],
+            [-73.99, 40.755],
+            [-73.99, 40.745],
+          ],
+        ],
       },
       baseFee: 2.99,
       feePerKm: 0.5,
@@ -145,13 +155,15 @@ export async function seed(): Promise<void> {
       name: 'Suburbs',
       boundary: {
         type: 'Polygon',
-        coordinates: [[
-          [-74.010, 40.725],
-          [-74.000, 40.725],
-          [-74.000, 40.735],
-          [-74.010, 40.735],
-          [-74.010, 40.725],
-        ]],
+        coordinates: [
+          [
+            [-74.01, 40.725],
+            [-74.0, 40.725],
+            [-74.0, 40.735],
+            [-74.01, 40.735],
+            [-74.01, 40.725],
+          ],
+        ],
       },
       baseFee: 5.99,
       feePerKm: 0.75,
@@ -160,6 +172,7 @@ export async function seed(): Promise<void> {
     },
   ]);
 
+  // eslint-disable-next-line no-console
   console.log(`Delivery zones created: ${await DeliveryZone.countDocuments()}`);
 
   // ── Restaurants ─────────────────────────────────────────────────
@@ -236,6 +249,7 @@ export async function seed(): Promise<void> {
     },
   ]);
 
+  // eslint-disable-next-line no-console
   console.log(`Restaurants created: ${await Restaurant.countDocuments()}`);
 
   // ── Menu Items ──────────────────────────────────────────────────
@@ -308,6 +322,7 @@ export async function seed(): Promise<void> {
     },
   ]);
 
+  // eslint-disable-next-line no-console
   console.log(`Menu items created: ${await MenuItem.countDocuments()}`);
 
   // ── Orders ──────────────────────────────────────────────────────
@@ -354,6 +369,7 @@ export async function seed(): Promise<void> {
     },
   ]);
 
+  // eslint-disable-next-line no-console
   console.log(`Orders created: ${await Order.countDocuments()}`);
 
   // ── Payments ────────────────────────────────────────────────────
@@ -368,6 +384,7 @@ export async function seed(): Promise<void> {
     },
   ]);
 
+  // eslint-disable-next-line no-console
   console.log(`Payments created: ${await Payment.countDocuments()}`);
 
   // ── Deliveries ──────────────────────────────────────────────────
@@ -389,6 +406,7 @@ export async function seed(): Promise<void> {
     },
   ]);
 
+  // eslint-disable-next-line no-console
   console.log(`Deliveries created: ${await Delivery.countDocuments()}`);
 
   // ── User Addresses ──────────────────────────────────────────────
@@ -423,12 +441,18 @@ export async function seed(): Promise<void> {
     },
   ]);
 
+  // eslint-disable-next-line no-console
   console.log(`User addresses created: ${await UserAddress.countDocuments()}`);
 
+  // eslint-disable-next-line no-console
   console.log('\n✓ Seed complete!');
+  // eslint-disable-next-line no-console
   console.log(`  Admin login:    admin@smartfood.com / ${SEED_PASSWORD}`);
+  // eslint-disable-next-line no-console
   console.log(`  Owner login:    owner@smartfood.com / ${SEED_PASSWORD}`);
+  // eslint-disable-next-line no-console
   console.log(`  Customer login: customer@smartfood.com / ${SEED_PASSWORD}`);
+  // eslint-disable-next-line no-console
   console.log(`  Driver login:   driver@smartfood.com / ${SEED_PASSWORD}`);
 
   await mongoose.disconnect();

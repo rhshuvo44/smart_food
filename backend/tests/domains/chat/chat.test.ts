@@ -190,7 +190,7 @@ describe('Chat Domain', () => {
       await message.save();
 
       const updated = await Message.findById(message._id);
-      expect(updated!.readBy).toHaveLength(2);
+      expect(updated.readBy).toHaveLength(2);
     });
   });
 
@@ -274,8 +274,8 @@ describe('Chat Domain', () => {
         );
 
         const updated = await Conversation.findById((conv as any).id);
-        expect(updated!.lastMessage).toBeDefined();
-        expect(updated!.lastMessage!.content).toBe('Last message!');
+        expect(updated.lastMessage).toBeDefined();
+        expect(updated.lastMessage.content).toBe('Last message!');
       });
 
       it('should reject messages from non-participants', async () => {

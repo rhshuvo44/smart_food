@@ -9,7 +9,7 @@ import {
   Platform,
 } from 'react-native';
 import MapView from 'react-native-maps';
-import { useCurrentLocation } from '../../app/hooks/useCurrentLocation';
+import { useCurrentLocation } from '../../hooks/useCurrentLocation';
 import { Loading } from '../../components/common/loading';
 import api from '../../services/api';
 import { RestaurantMarker } from './RestaurantMarker';

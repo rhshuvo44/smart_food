@@ -19,7 +19,9 @@ export default function RestaurantDetailScreen() {
   const { data: restaurant, isLoading: loadingRestaurant } = useQuery({
     queryKey: ['restaurant', id],
     queryFn: async () => {
-      const { data } = await api.get<IApiResponse<{ restaurant: IRestaurant }>>(`/restaurants/${id}`);
+      const { data } = await api.get<IApiResponse<{ restaurant: IRestaurant }>>(
+        `/restaurants/${id}`,
+      );
       return data.data?.restaurant;
     },
     enabled: !!id,
@@ -28,7 +30,9 @@ export default function RestaurantDetailScreen() {
   const { data: menuItems = [], isLoading: loadingMenu } = useQuery({
     queryKey: ['restaurant-menu', id],
     queryFn: async () => {
-      const { data } = await api.get<IApiResponse<{ items: IMenuItem[] }>>(`/restaurants/${id}/menu`);
+      const { data } = await api.get<IApiResponse<{ items: IMenuItem[] }>>(
+        `/restaurants/${id}/menu`,
+      );
       return data.data?.items ?? [];
     },
     enabled: !!id,
@@ -45,12 +49,12 @@ export default function RestaurantDetailScreen() {
         'Adding items from a different restaurant will clear your current cart.',
         [
           { text: 'Cancel', style: 'cancel' },
-          { text: 'Clear & Add', onPress: () => addItem(item, id!, restaurant?.name ?? '') },
-        ]
+          { text: 'Clear & Add', onPress: () => addItem(item, id ?? '', restaurant?.name ?? '') },
+        ],
       );
       return;
     }
-    addItem(item, id!, restaurant?.name ?? '');
+    addItem(item, id ?? '', restaurant?.name ?? '');
   };
 
   const cartCount = items.reduce((sum, i) => sum + i.quantity, 0);
@@ -79,7 +83,10 @@ export default function RestaurantDetailScreen() {
           <Text style={styles.cuisine}>{restaurant?.cuisine.join(' • ') ?? ''}</Text>
           <View style={styles.metaRow}>
             <View style={styles.metaChip}>
-              <Text style={styles.metaText}>🚚 {restaurant?.deliveryFee ? `$${restaurant.deliveryFee.toFixed(0)}` : 'Free'} delivery</Text>
+              <Text style={styles.metaText}>
+                🚚 {restaurant?.deliveryFee ? `$${restaurant.deliveryFee.toFixed(0)}` : 'Free'}{' '}
+                delivery
+              </Text>
             </View>
             <View style={styles.metaChip}>
               <Text style={styles.metaText}>📏 {restaurant?.deliveryRadius ?? 0} km</Text>
@@ -96,7 +103,12 @@ export default function RestaurantDetailScreen() {
                   style={[styles.categoryTab, currentCategory === cat && styles.categoryTabActive]}
                   onPress={() => setSelectedCategory(cat)}
                 >
-                  <Text style={[styles.categoryTabText, currentCategory === cat && styles.categoryTabTextActive]}>
+                  <Text
+                    style={[
+                      styles.categoryTabText,
+                      currentCategory === cat && styles.categoryTabTextActive,
+                    ]}
+                  >
                     {cat}
                   </Text>
                 </TouchableOpacity>
@@ -135,11 +147,11 @@ export default function RestaurantDetailScreen() {
         >
           <View style={styles.cartBarLeft}>
             <Text style={styles.cartBarIcon}>🛒</Text>
-            <Text style={styles.cartBarCount}>{cartCount} item{cartCount > 1 ? 's' : ''}</Text>
+            <Text style={styles.cartBarCount}>
+              {cartCount} item{cartCount > 1 ? 's' : ''}
+            </Text>
           </View>
-          <Text style={styles.cartBarTotal}>
-            View Cart →
-          </Text>
+          <Text style={styles.cartBarTotal}>View Cart →</Text>
         </TouchableOpacity>
       )}
     </View>

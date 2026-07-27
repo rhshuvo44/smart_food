@@ -60,7 +60,9 @@ export function useCurrentLocation(watch: boolean = false): UseCurrentLocationRe
           ].filter(Boolean);
           current.address = parts.join(', ');
         }
-      } catch {}
+      } catch {
+        /* address resolution optional */
+      }
 
       setLocation(current);
     } catch (err) {

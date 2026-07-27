@@ -25,7 +25,7 @@ export async function createZone(req: Request, res: Response): Promise<void> {
   res.status(201).json({
     success: true,
     data: { zone },
-    correlationId: (req as any).correlationId,
+    correlationId: req.correlationId,
   });
 }
 
@@ -35,7 +35,7 @@ export async function listZones(_req: Request, res: Response): Promise<void> {
   res.status(200).json({
     success: true,
     data: { zones },
-    correlationId: (_req as any).correlationId,
+    correlationId: _req.correlationId,
   });
 }
 
@@ -46,7 +46,7 @@ export async function getZoneById(req: Request, res: Response): Promise<void> {
   res.status(200).json({
     success: true,
     data: { zone },
-    correlationId: (req as any).correlationId,
+    correlationId: req.correlationId,
   });
 }
 
@@ -59,7 +59,7 @@ export async function updateZone(req: Request, res: Response): Promise<void> {
   res.status(200).json({
     success: true,
     data: { zone },
-    correlationId: (req as any).correlationId,
+    correlationId: req.correlationId,
   });
 }
 
@@ -70,7 +70,7 @@ export async function deleteZone(req: Request, res: Response): Promise<void> {
   res.status(200).json({
     success: true,
     data: { zone },
-    correlationId: (req as any).correlationId,
+    correlationId: req.correlationId,
   });
 }
 
@@ -85,7 +85,7 @@ export async function checkZoneContainment(req: Request, res: Response): Promise
       isInZone: zones.length > 0,
       zones,
     },
-    correlationId: (req as any).correlationId,
+    correlationId: req.correlationId,
   });
 }
 
@@ -104,7 +104,7 @@ export async function createDeliveryHandler(req: Request, res: Response): Promis
   res.status(201).json({
     success: true,
     data: { delivery },
-    correlationId: (req as any).correlationId,
+    correlationId: req.correlationId,
   });
 }
 
@@ -115,7 +115,7 @@ export async function getDeliveryById(req: Request, res: Response): Promise<void
   res.status(200).json({
     success: true,
     data: { delivery },
-    correlationId: (req as any).correlationId,
+    correlationId: req.correlationId,
   });
 }
 
@@ -126,7 +126,7 @@ export async function getDeliveryByOrder(req: Request, res: Response): Promise<v
   res.status(200).json({
     success: true,
     data: { delivery },
-    correlationId: (req as any).correlationId,
+    correlationId: req.correlationId,
   });
 }
 
@@ -139,7 +139,7 @@ export async function updateDeliveryStatus(req: Request, res: Response): Promise
   res.status(200).json({
     success: true,
     data: { delivery },
-    correlationId: (req as any).correlationId,
+    correlationId: req.correlationId,
   });
 }
 
@@ -152,7 +152,7 @@ export async function updateDeliveryLocation(req: Request, res: Response): Promi
   res.status(200).json({
     success: true,
     data: { delivery },
-    correlationId: (req as any).correlationId,
+    correlationId: req.correlationId,
   });
 }
 
@@ -195,6 +195,6 @@ export async function calculateDistanceHandler(req: Request, res: Response): Pro
         zoneName: fee.zoneName,
       },
     },
-    correlationId: (req as any).correlationId,
+    correlationId: req.correlationId,
   });
 }

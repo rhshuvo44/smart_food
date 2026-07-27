@@ -9,7 +9,13 @@ interface PromoBannerProps {
   onPress?: () => void;
 }
 
-export function PromoBanner({ title, subtitle, emoji, color = colors.primary, onPress }: PromoBannerProps) {
+export function PromoBanner({
+  title,
+  subtitle,
+  emoji,
+  color = colors.primary,
+  onPress,
+}: PromoBannerProps) {
   return (
     <TouchableOpacity
       style={[styles.banner, { backgroundColor: color }]}

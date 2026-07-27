@@ -29,7 +29,12 @@ const styles = StyleSheet.create({
   base: { backgroundColor: colors.white, borderRadius: borderRadius.md },
   elevated: {
     ...Platform.select({
-      ios: { shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.05, shadowRadius: 4 },
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.05,
+        shadowRadius: 4,
+      },
       android: { elevation: 2 },
     }),
   },

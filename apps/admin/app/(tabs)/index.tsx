@@ -15,7 +15,13 @@ interface DashboardData {
   activeRestaurants: number;
   totalUsers: number;
   pendingOrders: number;
-  recentOrders: { id: string; customerName: string; total: number; status: string; createdAt: string }[];
+  recentOrders: {
+    id: string;
+    customerName: string;
+    total: number;
+    status: string;
+    createdAt: string;
+  }[];
 }
 
 export default function DashboardScreen() {
@@ -35,9 +41,24 @@ export default function DashboardScreen() {
       <Header title="Dashboard" subtitle="Platform overview" />
 
       <View style={styles.statsGrid}>
-        <StatCard title="Total Orders" value={data?.totalOrders ?? 0} icon="📋" color={colors.primary} />
-        <StatCard title="Revenue" value={`$${data?.totalRevenue?.toLocaleString() ?? 0}`} icon="💰" color={colors.success} />
-        <StatCard title="Restaurants" value={data?.activeRestaurants ?? 0} icon="🏪" color={colors.secondary} />
+        <StatCard
+          title="Total Orders"
+          value={data?.totalOrders ?? 0}
+          icon="📋"
+          color={colors.primary}
+        />
+        <StatCard
+          title="Revenue"
+          value={`$${data?.totalRevenue?.toLocaleString() ?? 0}`}
+          icon="💰"
+          color={colors.success}
+        />
+        <StatCard
+          title="Restaurants"
+          value={data?.activeRestaurants ?? 0}
+          icon="🏪"
+          color={colors.secondary}
+        />
         <StatCard title="Users" value={data?.totalUsers ?? 0} icon="👥" color={colors.info} />
       </View>
 
@@ -67,15 +88,28 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
   statsGrid: { padding: spacing.md, gap: spacing.sm },
   pendingBanner: {
-    flexDirection: 'row', alignItems: 'center', marginHorizontal: spacing.md,
-    padding: spacing.md, backgroundColor: colors.warningLight, borderRadius: borderRadius.md, borderWidth: 1, borderColor: colors.warning + '40',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: spacing.md,
+    padding: spacing.md,
+    backgroundColor: colors.warningLight,
+    borderRadius: borderRadius.md,
+    borderWidth: 1,
+    borderColor: colors.warning + '40',
   },
   pendingIcon: { fontSize: 24, marginRight: spacing.md },
   pendingText: { fontSize: 15, fontWeight: '600', color: colors.text },
   orderRow: {
-    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
-    marginHorizontal: spacing.md, paddingVertical: spacing.sm, paddingHorizontal: spacing.md,
-    backgroundColor: colors.white, borderRadius: borderRadius.md, marginBottom: spacing.xs, ...shadows.sm,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.md,
+    backgroundColor: colors.white,
+    borderRadius: borderRadius.md,
+    marginBottom: spacing.xs,
+    ...shadows.sm,
   },
   orderLeft: { flex: 1 },
   orderCustomer: { fontSize: 14, fontWeight: '600', color: colors.text },

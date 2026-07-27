@@ -14,7 +14,7 @@ interface ListUsersParams {
 export async function listUsers(params: ListUsersParams) {
   const query: Record<string, unknown> = {};
 
-  if (params.role && Object.values(UserRole).includes(params.role as any)) {
+  if (params.role && Object.values(UserRole).includes(params.role as UserRole)) {
     query.role = params.role;
   }
 
@@ -92,7 +92,7 @@ export async function updateUser(
     }
   }
 
-  if (sanitized.role && !Object.values(UserRole).includes(sanitized.role as any)) {
+  if (sanitized.role && !Object.values(UserRole).includes(sanitized.role as UserRole)) {
     throw new NotFoundError('Invalid role');
   }
 

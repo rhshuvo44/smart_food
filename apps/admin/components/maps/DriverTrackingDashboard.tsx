@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native
 import MapView, { Marker, Callout, Polyline } from 'react-native-maps';
 import api from '../../services/api';
 
-
 interface DriverInfo {
   id: string;
   name: string;
@@ -64,7 +63,12 @@ export function DriverTrackingDashboard() {
     [fetchDriverRoute],
   );
 
-  if (isLoading) return <Text style={{ textAlign: 'center', marginTop: 40, color: '#6C757D' }}>Loading driver tracking...</Text>;
+  if (isLoading)
+    return (
+      <Text style={{ textAlign: 'center', marginTop: 40, color: '#6C757D' }}>
+        Loading driver tracking...
+      </Text>
+    );
 
   const region = {
     latitude: 23.8103,

@@ -36,7 +36,7 @@ class SocketService {
 
     this.socket.on('connect_error', () => {});
 
-    this.socket.onAny((event: string, data: any) => {
+    this.socket.onAny((event: string, data: unknown) => {
       const handlers = this.listeners.get(event);
       if (handlers) {
         handlers.forEach((cb) => cb(data));
@@ -77,10 +77,14 @@ class SocketService {
   }
 
   sendChatMessage(conversationId: string, content: string) {
-    return new Promise<{ success: boolean; message?: any; error?: string }>((resolve) => {
-      this.socket?.emit('chat:send-message', { conversationId, content }, (response: any) => {
-        resolve(response);
-      });
+    return new Promise<{ success: boolean; message?: unknown; error?: string }>((resolve) => {
+      this.socket?.emit(
+        'chat:send-message',
+        { conversationId, content },
+        (response: { success: boolean; message?: unknown; error?: string }) => {
+          resolve(response);
+        },
+      );
     });
   }
 
@@ -96,7 +100,7 @@ class SocketService {
     if (!this.listeners.has(event)) {
       this.listeners.set(event, new Set());
     }
-    this.listeners.get(event)!.add(callback);
+    this.listeners.get(event)?.add(callback);
     return () => {
       this.listeners.get(event)?.delete(callback);
     };
@@ -122,11 +126,14 @@ export function useSocketOrderUpdates(
     socketService.connect();
     socketService.joinRestaurant(restaurantId);
 
-    const unsubscribe = socketService.on('order:status-changed', (data) => {
-      if (data?.orderId && data?.status && callbackRef.current) {
-        callbackRef.current(data.orderId, data.status);
-      }
-    });
+    const unsubscribe = socketService.on(
+      'order:status-changed',
+      (data: { orderId: string; status: string }) => {
+        if (data?.orderId && data?.status && callbackRef.current) {
+          callbackRef.current(data.orderId, data.status);
+        }
+      },
+    );
 
     return () => {
       unsubscribe();

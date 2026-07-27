@@ -17,7 +17,12 @@ import { UserRole } from '@smartfood/shared';
 
 const router = Router();
 
-router.post('/payments/create-intent', authMiddleware, idempotencyMiddleware, asyncHandler(createIntent));
+router.post(
+  '/payments/create-intent',
+  authMiddleware,
+  idempotencyMiddleware,
+  asyncHandler(createIntent),
+);
 router.post('/payments/:id/confirm', authMiddleware, idempotencyMiddleware, asyncHandler(confirm));
 router.post(
   '/payments/:id/refund',
@@ -28,7 +33,12 @@ router.post(
 );
 router.get('/payments/order/:orderId', authMiddleware, asyncHandler(getByOrder));
 
-router.post('/payments/sslcommerz/init', authMiddleware, idempotencyMiddleware, asyncHandler(initSslcommerz));
+router.post(
+  '/payments/sslcommerz/init',
+  authMiddleware,
+  idempotencyMiddleware,
+  asyncHandler(initSslcommerz),
+);
 router.post('/payments/sslcommerz/success', asyncHandler(sslcommerzSuccess));
 router.post('/payments/sslcommerz/fail', asyncHandler(sslcommerzFail));
 router.post('/payments/sslcommerz/cancel', asyncHandler(sslcommerzCancel));

@@ -19,7 +19,12 @@ export function Avatar({ name, size = 48, backgroundColor }: AvatarProps) {
     <View
       style={[
         styles.container,
-        { width: size, height: size, borderRadius: size / 2, backgroundColor: backgroundColor || colors.primary + '20' },
+        {
+          width: size,
+          height: size,
+          borderRadius: size / 2,
+          backgroundColor: backgroundColor || colors.primary + '20',
+        },
       ]}
     >
       <Text style={[styles.text, { fontSize: size * 0.4 }]}>{initials}</Text>

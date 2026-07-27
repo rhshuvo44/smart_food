@@ -5,6 +5,7 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 const URI_FILE = path.resolve(import.meta.dirname, '.mongodb-uri');
 
 async function main() {
+  // eslint-disable-next-line no-console
   console.log('[dev] Starting MongoDB Memory Server...');
   const mongoServer = await MongoMemoryServer.create({
     instance: { dbName: 'smartfood_dev' },

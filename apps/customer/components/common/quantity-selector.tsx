@@ -8,7 +8,12 @@ interface QuantitySelectorProps {
   size?: 'sm' | 'md';
 }
 
-export function QuantitySelector({ quantity, onIncrease, onDecrease, size = 'md' }: QuantitySelectorProps) {
+export function QuantitySelector({
+  quantity,
+  onIncrease,
+  onDecrease,
+  size = 'md',
+}: QuantitySelectorProps) {
   const isSm = size === 'sm';
   return (
     <View style={[styles.container, isSm && styles.containerSm]}>
@@ -26,7 +31,9 @@ export function QuantitySelector({ quantity, onIncrease, onDecrease, size = 'md'
         onPress={onIncrease}
         activeOpacity={0.7}
       >
-        <Text style={[styles.buttonText, isSm && styles.buttonTextSm, styles.addButtonText]}>+</Text>
+        <Text style={[styles.buttonText, isSm && styles.buttonTextSm, styles.addButtonText]}>
+          +
+        </Text>
       </TouchableOpacity>
     </View>
   );

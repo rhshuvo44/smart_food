@@ -12,8 +12,8 @@ import type {
 } from '@smartfood/shared';
 
 export function registerChatSocketHandlers(io: SocketServer, socket: Socket): void {
-  const userId = (socket as any).userId as string;
-  const userRole = (socket as any).userRole as string;
+  const userId = (socket as Socket & { userId: string; userRole: string }).userId;
+  const userRole = (socket as Socket & { userId: string; userRole: string }).userRole;
 
   socket.on(ChatSocketEvents.JOIN, (payload: IChatJoinPayload) => {
     const room = `conversation:${payload.conversationId}`;

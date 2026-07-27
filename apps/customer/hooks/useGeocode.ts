@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import api from '../../services/api';
+import api from '../services/api';
 
 const cache = new Map<string, { lat: number; lng: number; formattedAddress: string }>();
 

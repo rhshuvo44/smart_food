@@ -32,7 +32,7 @@ export const useCartStore = create<CartStore>()((set, get) => ({
     if (existing) {
       set({
         items: state.items.map((i) =>
-          i.menuItem.id === menuItem.id ? { ...i, quantity: i.quantity + 1 } : i
+          i.menuItem.id === menuItem.id ? { ...i, quantity: i.quantity + 1 } : i,
         ),
       });
     } else {
@@ -60,9 +60,7 @@ export const useCartStore = create<CartStore>()((set, get) => ({
       return;
     }
     set({
-      items: get().items.map((i) =>
-        i.menuItem.id === menuItemId ? { ...i, quantity } : i
-      ),
+      items: get().items.map((i) => (i.menuItem.id === menuItemId ? { ...i, quantity } : i)),
     });
   },
 

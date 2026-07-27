@@ -21,8 +21,12 @@ export function SectionHeader({ title, action }: SectionHeaderProps) {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
-    paddingHorizontal: spacing.md, paddingVertical: spacing.sm, marginTop: spacing.sm,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    marginTop: spacing.sm,
   },
   title: { fontSize: 18, fontWeight: '700', color: colors.text },
   action: { fontSize: 14, fontWeight: '600', color: colors.primary },

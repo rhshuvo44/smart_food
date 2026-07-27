@@ -46,14 +46,21 @@ export function useDeliveryTracking(orderId: string | undefined): UseDeliveryTra
           driverName: delivery.driverName,
           driverPhone: delivery.driverPhone,
           estimatedArrival: delivery.estimatedArrival,
-          trackingHistory: (delivery.trackingHistory || []).map((e: any) => ({
-            status: e.status,
-            location: e.location?.coordinates
-              ? { lat: e.location.coordinates[1], lng: e.location.coordinates[0] }
-              : undefined,
-            timestamp: e.timestamp,
-            note: e.note,
-          })),
+          trackingHistory: (delivery.trackingHistory || []).map(
+            (e: {
+              status: string;
+              location?: { coordinates: number[] };
+              timestamp: string;
+              note?: string;
+            }) => ({
+              status: e.status,
+              location: e.location?.coordinates
+                ? { lat: e.location.coordinates[1], lng: e.location.coordinates[0] }
+                : undefined,
+              timestamp: e.timestamp,
+              note: e.note,
+            }),
+          ),
         });
       }
     } catch {

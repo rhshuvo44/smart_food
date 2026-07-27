@@ -3,8 +3,9 @@ import { FlatList, Text, KeyboardAvoidingView, Platform } from 'react-native';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { useChatStore } from '../../stores/chat.store';
 import { ChatBubble } from '../../components/chat/ChatBubble';
-import api from '../../services/api';
 import { ChatInput } from '../../components/chat/ChatInput';
+import api from '../../services/api';
+import type { IMessage } from '@smartfood/shared';
 import { Loading } from '../../components/common/loading';
 import socketService from '../../services/socket';
 import { useAuthStore } from '../../stores/auth.store';
@@ -26,8 +27,8 @@ export default function ChatScreen() {
   } = useChatStore();
   const user = useAuthStore((s) => s.user);
   const conversation = conversations.find((c) => c.id === conversationId);
-  const msgs = messages[conversationId!] || [];
-  const typing = typingUsers[conversationId!] || [];
+  const msgs = messages[conversationId] || [];
+  const typing = typingUsers[conversationId] || [];
 
   useEffect(() => {
     if (!conversationId) return;
@@ -37,17 +38,23 @@ export default function ChatScreen() {
     socketService.joinConversation(conversationId);
     socketService.markChatRead(conversationId);
 
-    const unsubNewMessage = socketService.on('chat:new-message', (data: any) => {
-      if (data.conversationId === conversationId) {
-        addMessage(conversationId, data.message);
-      }
-    });
+    const unsubNewMessage = socketService.on(
+      'chat:new-message',
+      (data: { conversationId: string; message: IMessage }) => {
+        if (data.conversationId === conversationId) {
+          addMessage(conversationId, data.message);
+        }
+      },
+    );
 
-    const unsubTyping = socketService.on('chat:user-typing', (data: any) => {
-      if (data.conversationId === conversationId) {
-        setTyping(conversationId, data.userId, data.userRole, data.isTyping);
-      }
-    });
+    const unsubTyping = socketService.on(
+      'chat:user-typing',
+      (data: { conversationId: string; userId: string; userRole: string; isTyping: boolean }) => {
+        if (data.conversationId === conversationId) {
+          setTyping(conversationId, data.userId, data.userRole, data.isTyping);
+        }
+      },
+    );
 
     return () => {
       socketService.leaveConversation(conversationId);
@@ -63,7 +70,9 @@ export default function ChatScreen() {
       if (!result.success) {
         try {
           await api.post(`/conversations/${conversationId}/messages`, { content: text });
-        } catch {}
+        } catch {
+          /* empty */
+        }
       }
     },
     [conversationId],

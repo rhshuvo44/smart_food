@@ -279,7 +279,7 @@ export async function sendOrderConfirmation(
     firstName: user.firstName,
     restaurantName:
       order.restaurantId && typeof order.restaurantId === 'object'
-        ? String((order.restaurantId as any).name || 'Restaurant')
+        ? String((order.restaurantId as { name?: string }).name || 'Restaurant')
         : 'Restaurant',
     total: (order.total / 100).toFixed(2),
     itemCount: order.items.length,
@@ -328,7 +328,7 @@ export async function sendOrderCancellation(
     firstName: user.firstName,
     restaurantName:
       order.restaurantId && typeof order.restaurantId === 'object'
-        ? String((order.restaurantId as any).name || 'Restaurant')
+        ? String((order.restaurantId as { name?: string }).name || 'Restaurant')
         : 'Restaurant',
     reason,
     email: user.email,
@@ -350,7 +350,7 @@ export async function sendOrderCompletion(
     firstName: user.firstName,
     restaurantName:
       order.restaurantId && typeof order.restaurantId === 'object'
-        ? String((order.restaurantId as any).name || 'Restaurant')
+        ? String((order.restaurantId as { name?: string }).name || 'Restaurant')
         : 'Restaurant',
     total: (order.total / 100).toFixed(2),
     deliveredAt: new Date().toLocaleString(),

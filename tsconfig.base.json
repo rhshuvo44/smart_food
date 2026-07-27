@@ -19,5 +19,5 @@
     "exactOptionalPropertyTypes": false,
     "isolatedModules": true
   },
-  "exclude": ["node_modules", "dist", "apps", "backend/dev-start.ts", "backend/seeds", "**/*.test.ts"]
+  "exclude": ["node_modules", "dist", "apps", "backend/dev-start.ts", "backend/seed-dev.ts", "backend/seeds", "**/*.test.ts"]
 }

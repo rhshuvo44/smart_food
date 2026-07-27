@@ -21,7 +21,13 @@ export function SectionHeader({ title, actionLabel, onAction }: SectionHeaderPro
 }
 
 const styles = StyleSheet.create({
-  container: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing.md, marginTop: spacing.md },
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: spacing.md,
+    marginTop: spacing.md,
+  },
   title: { ...typography.h3, flex: 1 },
   action: { ...typography.bodySmall, color: colors.secondary, fontWeight: '600' },
 });

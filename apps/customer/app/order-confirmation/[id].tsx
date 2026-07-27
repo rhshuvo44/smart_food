@@ -28,9 +28,7 @@ export default function OrderConfirmationScreen() {
 
         <Animated.View style={{ opacity: fadeAnim, alignItems: 'center' }}>
           <Text style={styles.title}>Order Placed! 🎉</Text>
-          <Text style={styles.subtitle}>
-            Your order has been received and is being prepared.
-          </Text>
+          <Text style={styles.subtitle}>Your order has been received and is being prepared.</Text>
 
           <View style={styles.infoCard}>
             <View style={styles.infoRow}>

@@ -45,12 +45,28 @@ export default function AddAddressScreen() {
             ))}
           </View>
 
-          <Input label="Street Address" value={street} onChangeText={setStreet} placeholder="Enter street address" />
+          <Input
+            label="Street Address"
+            value={street}
+            onChangeText={setStreet}
+            placeholder="Enter street address"
+          />
           <Input label="City" value={city} onChangeText={setCity} placeholder="Enter city" />
-          <Input label="Zip Code" value={zipCode} onChangeText={setZipCode} placeholder="Enter zip code" keyboardType="phone-pad" />
+          <Input
+            label="Zip Code"
+            value={zipCode}
+            onChangeText={setZipCode}
+            placeholder="Enter zip code"
+            keyboardType="phone-pad"
+          />
         </View>
 
-        <Button title="Save Address" onPress={handleSave} variant="primary" style={styles.saveButton} />
+        <Button
+          title="Save Address"
+          onPress={handleSave}
+          variant="primary"
+          style={styles.saveButton}
+        />
       </ScrollView>
     </View>
   );

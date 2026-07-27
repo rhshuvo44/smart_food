@@ -51,7 +51,10 @@ export default function RegisterScreen() {
   }
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
         <View style={styles.headerSection}>
           <View style={styles.logoCircle}>
@@ -72,21 +75,30 @@ export default function RegisterScreen() {
             <Input
               label="First Name"
               value={firstName}
-              onChangeText={(t) => { setFirstName(t); setErrors((e) => ({ ...e, firstName: undefined })); }}
+              onChangeText={(t) => {
+                setFirstName(t);
+                setErrors((e) => ({ ...e, firstName: undefined }));
+              }}
               placeholder="Enter your first name"
               error={errors.firstName}
             />
             <Input
               label="Last Name"
               value={lastName}
-              onChangeText={(t) => { setLastName(t); setErrors((e) => ({ ...e, lastName: undefined })); }}
+              onChangeText={(t) => {
+                setLastName(t);
+                setErrors((e) => ({ ...e, lastName: undefined }));
+              }}
               placeholder="Enter your last name"
               error={errors.lastName}
             />
             <Input
               label="Email"
               value={email}
-              onChangeText={(t) => { setEmail(t); setErrors((e) => ({ ...e, email: undefined })); }}
+              onChangeText={(t) => {
+                setEmail(t);
+                setErrors((e) => ({ ...e, email: undefined }));
+              }}
               placeholder="Enter your email"
               keyboardType="email-address"
               error={errors.email}
@@ -94,14 +106,19 @@ export default function RegisterScreen() {
             <Input
               label="Phone (optional)"
               value={phone}
-              onChangeText={(t) => { setPhone(t); setErrors((e) => ({ ...e, phone: undefined })); }}
+              onChangeText={(t) => {
+                setPhone(t);
+                setErrors((e) => ({ ...e, phone: undefined }));
+              }}
               placeholder="Enter your phone number"
               keyboardType="phone-pad"
               error={errors.phone}
             />
             <Button
               title="Continue"
-              onPress={() => { if (validateInfo()) setStep('password'); }}
+              onPress={() => {
+                if (validateInfo()) setStep('password');
+              }}
               variant="primary"
               style={styles.continueButton}
             />
@@ -111,7 +128,10 @@ export default function RegisterScreen() {
             <Input
               label="Create Password"
               value={password}
-              onChangeText={(t) => { setPassword(t); setErrors((e) => ({ ...e, password: undefined })); }}
+              onChangeText={(t) => {
+                setPassword(t);
+                setErrors((e) => ({ ...e, password: undefined }));
+              }}
               placeholder="Create a strong password"
               secureTextEntry
               error={errors.password}
@@ -126,11 +146,7 @@ export default function RegisterScreen() {
               loading={loading}
               style={styles.continueButton}
             />
-            <Button
-              title="← Back"
-              onPress={() => setStep('info')}
-              variant="ghost"
-            />
+            <Button title="← Back" onPress={() => setStep('info')} variant="ghost" />
           </View>
         )}
 
@@ -186,7 +202,12 @@ const styles = StyleSheet.create({
   },
   form: { marginBottom: spacing.md },
   continueButton: { marginTop: spacing.sm },
-  passwordHint: { fontSize: 12, color: colors.textTertiary, marginTop: -8, marginBottom: spacing.md },
+  passwordHint: {
+    fontSize: 12,
+    color: colors.textTertiary,
+    marginTop: -8,
+    marginBottom: spacing.md,
+  },
   footer: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center' },
   footerText: { fontSize: 14, color: colors.textSecondary },
 });

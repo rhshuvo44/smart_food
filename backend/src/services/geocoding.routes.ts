@@ -36,7 +36,7 @@ router.post(
           message:
             'Could not geocode the provided address. Please try a different address or enter coordinates manually.',
         },
-        correlationId: (req as any).correlationId,
+        correlationId: req.correlationId,
       });
       return;
     }
@@ -44,7 +44,7 @@ router.post(
     res.status(200).json({
       success: true,
       data: result,
-      correlationId: (req as any).correlationId,
+      correlationId: req.correlationId,
     });
   }),
 );
@@ -68,7 +68,7 @@ router.post(
           code: 'REVERSE_GEOCODING_FAILED',
           message: 'Could not reverse geocode the provided coordinates.',
         },
-        correlationId: (req as any).correlationId,
+        correlationId: req.correlationId,
       });
       return;
     }
@@ -76,7 +76,7 @@ router.post(
     res.status(200).json({
       success: true,
       data: result,
-      correlationId: (req as any).correlationId,
+      correlationId: req.correlationId,
     });
   }),
 );

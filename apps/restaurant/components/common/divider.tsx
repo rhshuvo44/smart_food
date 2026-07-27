@@ -9,11 +9,7 @@ interface DividerProps {
 export function Divider({ inset, color }: DividerProps) {
   return (
     <View
-      style={[
-        styles.divider,
-        { backgroundColor: color || colors.border },
-        inset && styles.inset,
-      ]}
+      style={[styles.divider, { backgroundColor: color || colors.border }, inset && styles.inset]}
     />
   );
 }

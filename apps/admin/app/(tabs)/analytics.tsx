@@ -37,7 +37,16 @@ export default function AnalyticsScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
   grid: { padding: spacing.md, gap: spacing.sm },
-  trendCard: { flexDirection: 'row', alignItems: 'center', marginHorizontal: spacing.md, padding: spacing.md, backgroundColor: colors.white, borderRadius: borderRadius.md, marginBottom: spacing.sm, ...shadows.sm },
+  trendCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: spacing.md,
+    padding: spacing.md,
+    backgroundColor: colors.white,
+    borderRadius: borderRadius.md,
+    marginBottom: spacing.sm,
+    ...shadows.sm,
+  },
   trendEmoji: { fontSize: 24, marginRight: spacing.md },
   trendText: { fontSize: 14, fontWeight: '500', color: colors.text, flex: 1 },
 });

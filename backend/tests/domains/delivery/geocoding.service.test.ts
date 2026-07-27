@@ -74,9 +74,9 @@ describe('Geocoding Service', () => {
       const result = await geocode('123 Main St, Dhaka');
 
       expect(result).not.toBeNull();
-      expect(result!.lat).toBe(23.8103);
-      expect(result!.lng).toBe(90.4125);
-      expect(result!.formattedAddress).toBe('123 Main St, Dhaka, Bangladesh');
+      expect(result.lat).toBe(23.8103);
+      expect(result.lng).toBe(90.4125);
+      expect(result.formattedAddress).toBe('123 Main St, Dhaka, Bangladesh');
     });
 
     it('should return null when API returns no results', async () => {
@@ -151,10 +151,10 @@ describe('Geocoding Service', () => {
       const result = await reverseGeocode(23.8103, 90.4125);
 
       expect(result).not.toBeNull();
-      expect(result!.address).toBe('123 Main St, Dhaka, Bangladesh');
-      expect(result!.components).toBeDefined();
-      expect(result!.components.city).toBe('Dhaka');
-      expect(result!.components.country).toBe('Bangladesh');
+      expect(result.address).toBe('123 Main St, Dhaka, Bangladesh');
+      expect(result.components).toBeDefined();
+      expect(result.components.city).toBe('Dhaka');
+      expect(result.components.country).toBe('Bangladesh');
     });
 
     it('should return null on reverse geocoding failure', async () => {

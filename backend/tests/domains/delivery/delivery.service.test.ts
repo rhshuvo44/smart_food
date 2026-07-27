@@ -160,7 +160,7 @@ describe('Delivery Service', () => {
 
       const zone = await deliveryService.findZoneForLocation(23.82, 90.42);
       expect(zone).not.toBeNull();
-      expect(zone!.name).toBe('Zone A');
+      expect(zone.name).toBe('Zone A');
     });
   });
 
@@ -287,7 +287,7 @@ describe('Delivery Service', () => {
       );
 
       expect(updated.driverLocation).toBeDefined();
-      expect(updated.driverLocation!.coordinates).toEqual([90.4145, 23.8123]); // GeoJSON [lng, lat]
+      expect(updated.driverLocation.coordinates).toEqual([90.4145, 23.8123]); // GeoJSON [lng, lat]
       expect(updated.trackingHistory.length).toBeGreaterThanOrEqual(1);
     });
 

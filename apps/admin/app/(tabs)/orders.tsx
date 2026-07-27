@@ -28,7 +28,11 @@ export default function OrdersScreen() {
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.list}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.card} onPress={() => router.push('/(tabs)/order-detail')} activeOpacity={0.9}>
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => router.push('/(tabs)/order-detail')}
+            activeOpacity={0.9}
+          >
             <View style={styles.topRow}>
               <Text style={styles.orderId}>#{item.id.slice(-6)}</Text>
               <StatusBadge status={item.status} />
@@ -46,7 +50,13 @@ export default function OrdersScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
   list: { padding: spacing.md },
-  card: { backgroundColor: colors.white, borderRadius: borderRadius.md, padding: spacing.md, marginBottom: spacing.sm, ...shadows.sm },
+  card: {
+    backgroundColor: colors.white,
+    borderRadius: borderRadius.md,
+    padding: spacing.md,
+    marginBottom: spacing.sm,
+    ...shadows.sm,
+  },
   topRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   orderId: { fontSize: 15, fontWeight: '600', color: colors.text },
   total: { fontSize: 18, fontWeight: '700', color: colors.text, marginTop: spacing.xs },

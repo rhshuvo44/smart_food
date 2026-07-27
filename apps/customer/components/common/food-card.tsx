@@ -19,8 +19,12 @@ export function FoodCard({ item, onPress, onAdd }: FoodCardProps) {
         </View>
       )}
       <View style={styles.body}>
-        <Text style={styles.name} numberOfLines={1}>{item.name}</Text>
-        <Text style={styles.description} numberOfLines={2}>{item.description}</Text>
+        <Text style={styles.name} numberOfLines={1}>
+          {item.name}
+        </Text>
+        <Text style={styles.description} numberOfLines={2}>
+          {item.description}
+        </Text>
         <View style={styles.bottomRow}>
           <Text style={styles.price}>${item.price.toFixed(2)}</Text>
           {onAdd && (
@@ -43,7 +47,12 @@ const styles = StyleSheet.create({
     padding: spacing.sm,
     ...shadows.sm,
   },
-  image: { width: 80, height: 80, borderRadius: borderRadius.md, backgroundColor: colors.surfaceVariant },
+  image: {
+    width: 80,
+    height: 80,
+    borderRadius: borderRadius.md,
+    backgroundColor: colors.surfaceVariant,
+  },
   placeholderImage: { alignItems: 'center', justifyContent: 'center' },
   placeholderIcon: { fontSize: 32 },
   body: { flex: 1, marginLeft: spacing.md, justifyContent: 'center' },

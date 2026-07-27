@@ -29,13 +29,20 @@ export default function HomeScreen() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
 
-  const { data: restaurantsData, isLoading, isError, refetch } = useQuery({
+  const {
+    data: restaurantsData,
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery({
     queryKey: ['restaurants', selectedCategory],
     queryFn: async () => {
       const params: Record<string, string> = {};
       if (selectedCategory !== 'All') params.cuisine = selectedCategory;
       if (searchQuery) params.search = searchQuery;
-      const { data } = await api.get<IApiResponse<{ restaurants: IRestaurant[] }>>('/restaurants', { params });
+      const { data } = await api.get<IApiResponse<{ restaurants: IRestaurant[] }>>('/restaurants', {
+        params,
+      });
       return data.data?.restaurants ?? [];
     },
   });
@@ -95,18 +102,11 @@ export default function HomeScreen() {
               <PromoBannerCarousel />
             </View>
 
-            <SectionHeader
-              title="Nearby Restaurants"
-              actionLabel="See All"
-              onAction={() => {}}
-            />
+            <SectionHeader title="Nearby Restaurants" actionLabel="See All" onAction={() => {}} />
           </View>
         }
         renderItem={({ item }) => (
-          <RestaurantCard
-            restaurant={item}
-            onPress={() => router.push(`/restaurant/${item.id}`)}
-          />
+          <RestaurantCard restaurant={item} onPress={() => router.push(`/restaurant/${item.id}`)} />
         )}
         ListEmptyComponent={
           isLoading ? (

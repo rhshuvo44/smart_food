@@ -69,8 +69,8 @@ export class EventBus {
       this.wrappers.set(eventType, new Map());
     }
     this.wrappers
-      .get(eventType)!
-      .set(handler as EventHandler<IDomainEvent>, wrappedHandler as EventHandler<IDomainEvent>);
+      .get(eventType)
+      ?.set(handler as EventHandler<IDomainEvent>, wrappedHandler as EventHandler<IDomainEvent>);
     this.emitter.on(eventType, wrappedHandler);
 
     return () => {

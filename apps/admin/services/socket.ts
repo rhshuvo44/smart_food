@@ -5,7 +5,7 @@ const BASE_URL = process.env.EXPO_PUBLIC_API_URL?.replace('/api/v1', '') || 'htt
 
 class SocketService {
   private socket: Socket | null = null;
-  private listeners: Map<string, Set<(data: any) => void>> = new Map();
+  private listeners: Map<string, Set<(data: unknown) => void>> = new Map();
   private maxReconnectAttempts = 10;
 
   async connect() {
@@ -29,7 +29,7 @@ class SocketService {
 
     this.socket.on('connect_error', () => {});
 
-    this.socket.onAny((event: string, data: any) => {
+    this.socket.onAny((event: string, data: unknown) => {
       const handlers = this.listeners.get(event);
       if (handlers) {
         handlers.forEach((cb) => cb(data));
@@ -54,9 +54,9 @@ class SocketService {
   }
 
   sendChatMessage(conversationId: string, content: string) {
-    return new Promise<{ success: boolean; message?: any; error?: string }>((resolve) => {
-      this.socket?.emit('chat:send-message', { conversationId, content }, (response: any) => {
-        resolve(response);
+    return new Promise<{ success: boolean; message?: unknown; error?: string }>((resolve) => {
+      this.socket?.emit('chat:send-message', { conversationId, content }, (response: unknown) => {
+        resolve(response as { success: boolean; message?: unknown; error?: string });
       });
     });
   }
@@ -69,17 +69,17 @@ class SocketService {
     this.socket?.emit('chat:mark-read', { conversationId });
   }
 
-  on(event: string, callback: (data: any) => void) {
+  on(event: string, callback: (data: unknown) => void) {
     if (!this.listeners.has(event)) {
       this.listeners.set(event, new Set());
     }
-    this.listeners.get(event)!.add(callback);
+    this.listeners.get(event)?.add(callback);
     return () => {
       this.listeners.get(event)?.delete(callback);
     };
   }
 
-  off(event: string, callback: (data: any) => void) {
+  off(event: string, callback: (data: unknown) => void) {
     this.listeners.get(event)?.delete(callback);
   }
 }

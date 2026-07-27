@@ -1,5 +1,13 @@
 import { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import { Button } from '../../components/common/button';
 import { Input } from '../../components/common/input';
 import { Divider } from '../../components/common/divider';
@@ -38,7 +46,10 @@ export default function LoginScreen() {
   }
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
         <View style={styles.headerSection}>
           <View style={styles.logoCircle}>
@@ -52,7 +63,10 @@ export default function LoginScreen() {
           <Input
             label="Email"
             value={email}
-            onChangeText={(t) => { setEmail(t); setErrors((e) => ({ ...e, email: undefined })); }}
+            onChangeText={(t) => {
+              setEmail(t);
+              setErrors((e) => ({ ...e, email: undefined }));
+            }}
             placeholder="Enter your email"
             keyboardType="email-address"
             error={errors.email}
@@ -60,7 +74,10 @@ export default function LoginScreen() {
           <Input
             label="Password"
             value={password}
-            onChangeText={(t) => { setPassword(t); setErrors((e) => ({ ...e, password: undefined })); }}
+            onChangeText={(t) => {
+              setPassword(t);
+              setErrors((e) => ({ ...e, password: undefined }));
+            }}
             placeholder="Enter your password"
             secureTextEntry
             error={errors.password}
@@ -140,7 +157,12 @@ const styles = StyleSheet.create({
   form: { marginBottom: spacing.md },
   signInButton: { marginTop: spacing.sm },
   socialSection: { marginBottom: spacing.lg },
-  socialLabel: { fontSize: 13, color: colors.textTertiary, textAlign: 'center', marginBottom: spacing.md },
+  socialLabel: {
+    fontSize: 13,
+    color: colors.textTertiary,
+    textAlign: 'center',
+    marginBottom: spacing.md,
+  },
   socialRow: { flexDirection: 'row', gap: spacing.md },
   socialButton: {
     flex: 1,

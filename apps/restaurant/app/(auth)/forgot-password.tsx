@@ -13,8 +13,14 @@ export default function ForgotPasswordScreen() {
   const [error, setError] = useState('');
 
   const handleReset = async () => {
-    if (isEmpty(email)) { setError('Email is required'); return; }
-    if (!isValidEmail(email)) { setError('Invalid email format'); return; }
+    if (isEmpty(email)) {
+      setError('Email is required');
+      return;
+    }
+    if (!isValidEmail(email)) {
+      setError('Invalid email format');
+      return;
+    }
     setLoading(true);
     setError('');
     try {
@@ -28,7 +34,10 @@ export default function ForgotPasswordScreen() {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
       <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
         <View style={styles.headerSection}>
           <View style={styles.logoCircle}>
@@ -43,13 +52,39 @@ export default function ForgotPasswordScreen() {
             <Text style={styles.sentEmoji}>📧</Text>
             <Text style={styles.sentTitle}>Email Sent</Text>
             <Text style={styles.sentText}>Check your inbox for password reset instructions.</Text>
-            <Button title="Back to Login" onPress={() => router.push('/(auth)/login')} variant="primary" style={styles.backBtn} />
+            <Button
+              title="Back to Login"
+              onPress={() => router.push('/(auth)/login')}
+              variant="primary"
+              style={styles.backBtn}
+            />
           </View>
         ) : (
           <>
-            <Input label="Email" value={email} onChangeText={(t) => { setEmail(t); setError(''); }} placeholder="Enter your email" keyboardType="email-address" error={error} />
-            <Button title="Send Reset Link" onPress={handleReset} variant="secondary" loading={loading} style={styles.resetBtn} />
-            <Button title="Back to Login" onPress={() => router.push('/(auth)/login')} variant="ghost" style={styles.backBtn} />
+            <Input
+              label="Email"
+              value={email}
+              onChangeText={(t) => {
+                setEmail(t);
+                setError('');
+              }}
+              placeholder="Enter your email"
+              keyboardType="email-address"
+              error={error}
+            />
+            <Button
+              title="Send Reset Link"
+              onPress={handleReset}
+              variant="secondary"
+              loading={loading}
+              style={styles.resetBtn}
+            />
+            <Button
+              title="Back to Login"
+              onPress={() => router.push('/(auth)/login')}
+              variant="ghost"
+              style={styles.backBtn}
+            />
           </>
         )}
       </ScrollView>
@@ -61,14 +96,27 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
   scrollContent: { flexGrow: 1, justifyContent: 'center', padding: spacing.lg },
   headerSection: { alignItems: 'center', marginBottom: spacing.xl },
-  logoCircle: { width: 80, height: 80, borderRadius: 40, backgroundColor: colors.surfaceVariant, alignItems: 'center', justifyContent: 'center', marginBottom: spacing.md },
+  logoCircle: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: colors.surfaceVariant,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: spacing.md,
+  },
   logoEmoji: { fontSize: 36 },
   title: { ...typography.h1, marginBottom: spacing.xs },
   subtitle: { ...typography.body, color: colors.textSecondary, textAlign: 'center' },
   sentContainer: { alignItems: 'center', paddingVertical: spacing.lg },
   sentEmoji: { fontSize: 48, marginBottom: spacing.md },
   sentTitle: { fontSize: 20, fontWeight: '700', color: colors.text, marginBottom: spacing.sm },
-  sentText: { fontSize: 14, color: colors.textSecondary, textAlign: 'center', marginBottom: spacing.lg },
+  sentText: {
+    fontSize: 14,
+    color: colors.textSecondary,
+    textAlign: 'center',
+    marginBottom: spacing.lg,
+  },
   resetBtn: { marginTop: 8 },
   backBtn: { marginTop: 16 },
 });

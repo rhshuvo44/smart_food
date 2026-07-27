@@ -10,7 +10,14 @@ interface SearchBarProps {
   autoFocus?: boolean;
 }
 
-export function SearchBar({ value, onChangeText, placeholder, onFocus, onSubmit, autoFocus }: SearchBarProps) {
+export function SearchBar({
+  value,
+  onChangeText,
+  placeholder,
+  onFocus,
+  onSubmit,
+  autoFocus,
+}: SearchBarProps) {
   return (
     <View style={styles.container}>
       <Text style={styles.icon}>🔍</Text>

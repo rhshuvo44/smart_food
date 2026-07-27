@@ -10,12 +10,21 @@ interface StatCardProps {
   changeType?: 'up' | 'down';
 }
 
-export function StatCard({ title, value, icon, color = colors.primary, change, changeType = 'up' }: StatCardProps) {
+export function StatCard({
+  title,
+  value,
+  icon,
+  color = colors.primary,
+  change,
+  changeType = 'up',
+}: StatCardProps) {
   return (
     <View style={[styles.card, { borderLeftColor: color }]}>
       <View style={styles.topRow}>
         <Text style={styles.icon}>{icon}</Text>
-        <Text style={[styles.change, { color: changeType === 'up' ? colors.success : colors.error }]}>
+        <Text
+          style={[styles.change, { color: changeType === 'up' ? colors.success : colors.error }]}
+        >
           {change || ''}
         </Text>
       </View>
@@ -34,7 +43,12 @@ const styles = StyleSheet.create({
     marginBottom: spacing.sm,
     ...shadows.sm,
   },
-  topRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing.sm },
+  topRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: spacing.sm,
+  },
   icon: { fontSize: 24 },
   change: { fontSize: 12, fontWeight: '600' },
   value: { ...typography.h2, color: colors.text },

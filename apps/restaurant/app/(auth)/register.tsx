@@ -28,7 +28,8 @@ export default function RegisterScreen() {
     if (isEmpty(phone)) newErrors.phone = 'Phone number is required';
     else if (!isValidPhone(phone)) newErrors.phone = 'Please enter a valid phone number';
     if (isEmpty(password)) newErrors.password = 'Password is required';
-    else if (!isValidPassword(password)) newErrors.password = 'Min 8 characters, 1 uppercase, 1 number';
+    else if (!isValidPassword(password))
+      newErrors.password = 'Min 8 characters, 1 uppercase, 1 number';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -40,8 +41,13 @@ export default function RegisterScreen() {
       const result = await registerUser({ firstName, lastName, email, phone, password });
       setAuth(result.user);
       router.replace('/(tabs)');
-    } catch (err: any) {
-      setErrors({ email: err?.response?.data?.error?.message || 'Registration failed' });
+    } catch (err: unknown) {
+      if (err && typeof err === 'object' && 'response' in err) {
+        const axiosErr = err as { response?: { data?: { error?: { message?: string } } } };
+        setErrors({ email: axiosErr.response?.data?.error?.message || 'Registration failed' });
+      } else {
+        setErrors({ email: 'Registration failed' });
+      }
     } finally {
       setLoading(false);
     }
@@ -52,7 +58,10 @@ export default function RegisterScreen() {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
       <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
         <View style={styles.headerSection}>
           <View style={styles.logoCircle}>
@@ -62,14 +71,73 @@ export default function RegisterScreen() {
           <Text style={styles.subtitle}>Create your restaurant owner account</Text>
         </View>
 
-        <Input label="First Name" value={firstName} onChangeText={(t) => { setFirstName(t); clearError('firstName'); }} placeholder="Enter your first name" error={errors.firstName} />
-        <Input label="Last Name" value={lastName} onChangeText={(t) => { setLastName(t); clearError('lastName'); }} placeholder="Enter your last name" error={errors.lastName} />
-        <Input label="Email" value={email} onChangeText={(t) => { setEmail(t); clearError('email'); }} placeholder="Enter your email" keyboardType="email-address" error={errors.email} />
-        <Input label="Phone Number" value={phone} onChangeText={(t) => { setPhone(t); clearError('phone'); }} placeholder="Enter your phone number" keyboardType="phone-pad" error={errors.phone} />
-        <Input label="Password" value={password} onChangeText={(t) => { setPassword(t); clearError('password'); }} placeholder="Create a password" secureTextEntry error={errors.password} />
+        <Input
+          label="First Name"
+          value={firstName}
+          onChangeText={(t) => {
+            setFirstName(t);
+            clearError('firstName');
+          }}
+          placeholder="Enter your first name"
+          error={errors.firstName}
+        />
+        <Input
+          label="Last Name"
+          value={lastName}
+          onChangeText={(t) => {
+            setLastName(t);
+            clearError('lastName');
+          }}
+          placeholder="Enter your last name"
+          error={errors.lastName}
+        />
+        <Input
+          label="Email"
+          value={email}
+          onChangeText={(t) => {
+            setEmail(t);
+            clearError('email');
+          }}
+          placeholder="Enter your email"
+          keyboardType="email-address"
+          error={errors.email}
+        />
+        <Input
+          label="Phone Number"
+          value={phone}
+          onChangeText={(t) => {
+            setPhone(t);
+            clearError('phone');
+          }}
+          placeholder="Enter your phone number"
+          keyboardType="phone-pad"
+          error={errors.phone}
+        />
+        <Input
+          label="Password"
+          value={password}
+          onChangeText={(t) => {
+            setPassword(t);
+            clearError('password');
+          }}
+          placeholder="Create a password"
+          secureTextEntry
+          error={errors.password}
+        />
 
-        <Button title="Register" onPress={handleRegister} variant="secondary" loading={loading} style={styles.registerBtn} />
-        <Button title="Already have an account? Sign In" onPress={() => router.push('/(auth)/login')} variant="ghost" style={styles.signInBtn} />
+        <Button
+          title="Register"
+          onPress={handleRegister}
+          variant="secondary"
+          loading={loading}
+          style={styles.registerBtn}
+        />
+        <Button
+          title="Already have an account? Sign In"
+          onPress={() => router.push('/(auth)/login')}
+          variant="ghost"
+          style={styles.signInBtn}
+        />
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -79,7 +147,15 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
   scrollContent: { flexGrow: 1, justifyContent: 'center', padding: spacing.lg },
   headerSection: { alignItems: 'center', marginBottom: spacing.xl },
-  logoCircle: { width: 80, height: 80, borderRadius: 40, backgroundColor: colors.surfaceVariant, alignItems: 'center', justifyContent: 'center', marginBottom: spacing.md },
+  logoCircle: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: colors.surfaceVariant,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: spacing.md,
+  },
   logoEmoji: { fontSize: 36 },
   title: { ...typography.h1, marginBottom: spacing.xs },
   subtitle: { ...typography.body, color: colors.textSecondary, textAlign: 'center' },

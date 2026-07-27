@@ -8,7 +8,8 @@ import { EmptyState } from '../../components/common/empty-state';
 import { colors, spacing, typography, shadows } from '../../constants';
 
 export default function CartScreen() {
-  const { items, restaurantName, updateQuantity, removeItem, getSubtotal, clearCart } = useCartStore();
+  const { items, restaurantName, updateQuantity, removeItem, getSubtotal, clearCart } =
+    useCartStore();
 
   if (items.length === 0) {
     return (
@@ -66,8 +67,12 @@ export default function CartScreen() {
               </View>
             )}
             <View style={styles.itemInfo}>
-              <Text style={styles.itemName} numberOfLines={1}>{item.menuItem.name}</Text>
-              <Text style={styles.itemPrice}>${(item.menuItem.price * item.quantity).toFixed(2)}</Text>
+              <Text style={styles.itemName} numberOfLines={1}>
+                {item.menuItem.name}
+              </Text>
+              <Text style={styles.itemPrice}>
+                ${(item.menuItem.price * item.quantity).toFixed(2)}
+              </Text>
               <QuantitySelector
                 quantity={item.quantity}
                 onIncrease={() => updateQuantity(item.menuItem.id, item.quantity + 1)}
@@ -151,12 +156,23 @@ const styles = StyleSheet.create({
     marginBottom: spacing.sm,
     ...shadows.sm,
   },
-  itemImage: { width: 64, height: 64, borderRadius: spacing.md, backgroundColor: colors.surfaceVariant },
+  itemImage: {
+    width: 64,
+    height: 64,
+    borderRadius: spacing.md,
+    backgroundColor: colors.surfaceVariant,
+  },
   itemImagePlaceholder: { alignItems: 'center', justifyContent: 'center' },
   itemEmoji: { fontSize: 28 },
   itemInfo: { flex: 1, marginLeft: spacing.md, justifyContent: 'center' },
   itemName: { fontSize: 15, fontWeight: '600', color: colors.text },
-  itemPrice: { fontSize: 15, fontWeight: '700', color: colors.primary, marginTop: 2, marginBottom: spacing.sm },
+  itemPrice: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: colors.primary,
+    marginTop: 2,
+    marginBottom: spacing.sm,
+  },
   footer: {
     backgroundColor: colors.white,
     borderTopWidth: 1,

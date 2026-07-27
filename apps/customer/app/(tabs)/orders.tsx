@@ -24,8 +24,7 @@ const statusConfig: Record<string, { icon: string; color: string; bg: string }> 
   cancelled: { icon: '❌', color: '#DC3545', bg: '#FFEBEE' },
 };
 
-const statusLabel = (s: string) =>
-  s.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+const statusLabel = (s: string) => s.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 
 export default function OrdersScreen() {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -55,7 +54,7 @@ export default function OrdersScreen() {
     ['pending', 'confirmed', 'preparing', 'ready', 'out_for_delivery'].includes(status);
 
   const filtered = orders.filter((o) =>
-    activeTab === 'active' ? isActive(o.status) : !isActive(o.status)
+    activeTab === 'active' ? isActive(o.status) : !isActive(o.status),
   );
 
   return (
@@ -69,7 +68,9 @@ export default function OrdersScreen() {
           style={[styles.tab, activeTab === 'active' && styles.tabActive]}
           onPress={() => setActiveTab('active')}
         >
-          <Text style={[styles.tabText, activeTab === 'active' && styles.tabTextActive]}>Active</Text>
+          <Text style={[styles.tabText, activeTab === 'active' && styles.tabTextActive]}>
+            Active
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.tab, activeTab === 'past' && styles.tabActive]}
@@ -82,7 +83,11 @@ export default function OrdersScreen() {
       {filtered.length === 0 ? (
         <EmptyState
           title={activeTab === 'active' ? 'No Active Orders' : 'No Past Orders'}
-          subtitle={activeTab === 'active' ? 'Place an order to see it here' : 'Your order history will appear here'}
+          subtitle={
+            activeTab === 'active'
+              ? 'Place an order to see it here'
+              : 'Your order history will appear here'
+          }
           icon={activeTab === 'active' ? '🍽' : '📋'}
         />
       ) : (
@@ -91,7 +96,11 @@ export default function OrdersScreen() {
           keyExtractor={(item) => item.id}
           contentContainerStyle={styles.listContent}
           renderItem={({ item }) => {
-            const config = statusConfig[item.status] || { icon: '📋', color: colors.textSecondary, bg: colors.surface };
+            const config = statusConfig[item.status] || {
+              icon: '📋',
+              color: colors.textSecondary,
+              bg: colors.surface,
+            };
             return (
               <TouchableOpacity
                 style={styles.orderCard}
@@ -107,20 +116,29 @@ export default function OrdersScreen() {
                     <Text style={styles.statusEmoji}>{config.icon}</Text>
                   </View>
                   <View style={styles.orderInfo}>
-                    <Text style={styles.restaurantName}>{item.restaurantName || `Order #${item.id.slice(-6)}`}</Text>
-                    <Text style={[styles.orderStatus, { color: config.color }]}>{statusLabel(item.status)}</Text>
+                    <Text style={styles.restaurantName}>
+                      {item.restaurantName || `Order #${item.id.slice(-6)}`}
+                    </Text>
+                    <Text style={[styles.orderStatus, { color: config.color }]}>
+                      {statusLabel(item.status)}
+                    </Text>
                   </View>
                   <View style={styles.orderRight}>
                     <Text style={styles.orderTotal}>${item.total.toFixed(2)}</Text>
                     <Text style={styles.orderDate}>
-                      {new Date(item.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                      {new Date(item.createdAt).toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                      })}
                     </Text>
                   </View>
                 </View>
                 {isActive(item.status) && (
                   <View style={[styles.trackingBadge, { backgroundColor: config.bg }]}>
                     <Text style={[styles.trackingBadgeText, { color: config.color }]}>
-                      {item.status === 'out_for_delivery' ? '📍 Tap to track delivery' : '⏳ Order in progress'}
+                      {item.status === 'out_for_delivery'
+                        ? '📍 Tap to track delivery'
+                        : '⏳ Order in progress'}
                     </Text>
                   </View>
                 )}
@@ -165,7 +183,13 @@ const styles = StyleSheet.create({
     ...shadows.sm,
   },
   orderHeader: { flexDirection: 'row', alignItems: 'center' },
-  statusIcon: { width: 44, height: 44, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
+  statusIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   statusEmoji: { fontSize: 20 },
   orderInfo: { flex: 1, marginLeft: spacing.md },
   restaurantName: { fontSize: 15, fontWeight: '600', color: colors.text },

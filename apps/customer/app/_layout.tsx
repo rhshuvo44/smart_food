@@ -26,10 +26,21 @@ function SplashScreen() {
   }, []);
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.primary }}>
-      <Animated.View style={{ opacity: fadeAnim, transform: [{ translateY: slideAnim }], alignItems: 'center' }}>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: colors.primary,
+      }}
+    >
+      <Animated.View
+        style={{ opacity: fadeAnim, transform: [{ translateY: slideAnim }], alignItems: 'center' }}
+      >
         <Text style={{ fontSize: 64, marginBottom: 16 }}>🍕</Text>
-        <Text style={{ fontSize: 36, fontWeight: '800', color: '#FFFFFF', letterSpacing: 1 }}>SmartFood</Text>
+        <Text style={{ fontSize: 36, fontWeight: '800', color: '#FFFFFF', letterSpacing: 1 }}>
+          SmartFood
+        </Text>
         <Text style={{ fontSize: 16, color: 'rgba(255,255,255,0.85)', marginTop: 8 }}>
           Your favorite food, delivered fast.
         </Text>

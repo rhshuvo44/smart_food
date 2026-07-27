@@ -26,7 +26,13 @@ export function StatusBadge({ status, colorMap, size = 'sm' }: StatusBadgeProps)
   const color = map[status.toLowerCase()] || colors.textSecondary;
   const label = status.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
   return (
-    <View style={[styles.badge, { backgroundColor: color + '20', borderColor: color }, size === 'md' && styles.badgeMd]}>
+    <View
+      style={[
+        styles.badge,
+        { backgroundColor: color + '20', borderColor: color },
+        size === 'md' && styles.badgeMd,
+      ]}
+    >
       <View style={[styles.dot, { backgroundColor: color }]} />
       <Text style={[styles.text, { color }, size === 'md' && styles.textMd]}>{label}</Text>
     </View>
@@ -34,7 +40,15 @@ export function StatusBadge({ status, colorMap, size = 'sm' }: StatusBadgeProps)
 }
 
 const styles = StyleSheet.create({
-  badge: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: spacing.sm, paddingVertical: 3, borderRadius: borderRadius.sm, borderWidth: 1, alignSelf: 'flex-start' },
+  badge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 3,
+    borderRadius: borderRadius.sm,
+    borderWidth: 1,
+    alignSelf: 'flex-start',
+  },
   badgeMd: { paddingHorizontal: spacing.md, paddingVertical: 5 },
   dot: { width: 6, height: 6, borderRadius: 3, marginRight: 5 },
   text: { fontSize: 11, fontWeight: '600' },

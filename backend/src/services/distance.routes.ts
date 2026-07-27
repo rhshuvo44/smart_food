@@ -45,7 +45,7 @@ router.post(
     res.status(200).json({
       success: true,
       data: result,
-      correlationId: (req as any).correlationId,
+      correlationId: req.correlationId,
     });
   }),
 );
@@ -66,7 +66,7 @@ router.post(
     res.status(200).json({
       success: true,
       data: { restaurants, count: restaurants.length },
-      correlationId: (req as any).correlationId,
+      correlationId: req.correlationId,
     });
   }),
 );

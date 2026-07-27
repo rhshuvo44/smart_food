@@ -5,11 +5,13 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 const URI_FILE = path.resolve(import.meta.dirname, '.mongodb-uri');
 
 async function main() {
+  // eslint-disable-next-line no-console
   console.log('[seed:mem] Starting MongoDB Memory Server...');
   const mongoServer = await MongoMemoryServer.create({
     instance: { dbName: 'smartfood_dev' },
   });
   const uri = mongoServer.getUri();
+  // eslint-disable-next-line no-console
   console.log(`[seed:mem] MongoDB Memory Server running at: ${uri}`);
 
   // Must set before importing seed.ts so the module-level URI resolution picks it up

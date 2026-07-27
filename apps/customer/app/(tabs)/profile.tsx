@@ -60,10 +60,7 @@ export default function ProfileScreen() {
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View style={styles.profileHeader}>
-        <Avatar
-          name={`${user?.firstName || ''} ${user?.lastName || ''}`}
-          size={72}
-        />
+        <Avatar name={`${user?.firstName || ''} ${user?.lastName || ''}`} size={72} />
         <Text style={styles.profileName}>
           {user?.firstName} {user?.lastName}
         </Text>
@@ -134,7 +131,12 @@ const styles = StyleSheet.create({
   },
   illustrationIcon: { fontSize: 48 },
   signInTitle: { ...typography.h2, marginBottom: spacing.sm },
-  signInSubtitle: { ...typography.body, color: colors.textSecondary, textAlign: 'center', marginBottom: spacing.xl },
+  signInSubtitle: {
+    ...typography.body,
+    color: colors.textSecondary,
+    textAlign: 'center',
+    marginBottom: spacing.xl,
+  },
   signInButton: { width: '100%', marginBottom: spacing.sm },
   signUpButton: { width: '100%' },
   profileHeader: { alignItems: 'center', padding: spacing.xl },
@@ -154,7 +156,14 @@ const styles = StyleSheet.create({
   statLabel: { fontSize: 12, color: colors.textSecondary, marginTop: 2 },
   statDivider: { width: 1, backgroundColor: colors.border },
   menuSection: { paddingHorizontal: spacing.md, marginBottom: spacing.md },
-  menuSectionTitle: { fontSize: 13, fontWeight: '600', color: colors.textTertiary, textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: spacing.sm },
+  menuSectionTitle: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: colors.textTertiary,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    marginBottom: spacing.sm,
+  },
   menuCard: {
     backgroundColor: colors.white,
     borderRadius: spacing.md,

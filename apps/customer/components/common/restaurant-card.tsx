@@ -33,7 +33,10 @@ export function RestaurantCard({ restaurant, onPress }: RestaurantCardProps) {
         </Text>
         <View style={styles.bottomRow}>
           <View style={styles.infoChip}>
-            <Text style={styles.infoText}>⏱ {restaurant.deliveryFee > 0 ? `$${restaurant.deliveryFee.toFixed(0)}` : 'Free'} delivery</Text>
+            <Text style={styles.infoText}>
+              ⏱ {restaurant.deliveryFee > 0 ? `$${restaurant.deliveryFee.toFixed(0)}` : 'Free'}{' '}
+              delivery
+            </Text>
           </View>
           <Text style={styles.minOrder}>Min ${restaurant.minimumOrder.toFixed(0)}</Text>
         </View>

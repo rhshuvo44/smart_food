@@ -2,6 +2,7 @@ import type mongoose from 'mongoose';
 import { EventBus } from '../../shared/event-bus.js';
 import { logger } from '../../config/logger.js';
 import { Order } from '../../models/order.model.js';
+import type { IUserDocument } from '../../models/user.model.js';
 import {
   sendOrderConfirmation,
   sendOrderStatusUpdate,
@@ -86,7 +87,7 @@ async function handleOrderCreated(event: IOrderCreatedEvent): Promise<void> {
     }
 
     // Fire-and-forget — do not await
-    sendOrderConfirmation(order, user as any).catch((error) => {
+    sendOrderConfirmation(order, user as IUserDocument).catch((error) => {
       logger.error(
         { error, orderId: event.aggregateId },
         'Failed to send order confirmation notification',
@@ -124,7 +125,7 @@ async function handleOrderStatusChanged(event: IOrderStatusChangedEvent): Promis
 
     sendOrderStatusUpdate(
       order,
-      user as any,
+      user as IUserDocument,
       event.data.previousStatus,
       event.data.newStatus,
     ).catch((error) => {
@@ -169,7 +170,7 @@ async function handleOrderCancelled(event: IOrderCancelledEvent): Promise<void> 
       return;
     }
 
-    sendOrderCancellation(order, user as any, event.data.reason).catch((error) => {
+    sendOrderCancellation(order, user as IUserDocument, event.data.reason).catch((error) => {
       logger.error(
         { error, orderId: event.data.orderId },
         'Failed to send cancellation notification',
@@ -208,7 +209,7 @@ async function handleOrderCompleted(event: IOrderCompletedEvent): Promise<void> 
       return;
     }
 
-    sendOrderCompletion(order, user as any).catch((error) => {
+    sendOrderCompletion(order, user as IUserDocument).catch((error) => {
       logger.error(
         { error, orderId: event.data.orderId },
         'Failed to send completion notification',

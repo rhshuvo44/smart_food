@@ -10,6 +10,7 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import request from 'supertest';
 import { createApp } from '../../src/app.js';
 import { Payment } from '../../src/models/index.js';
+import Stripe from 'stripe';
 
 jest.mock('stripe', () => {
   const paymentIntents = { create: jest.fn(), retrieve: jest.fn() };
@@ -27,8 +28,7 @@ let accessToken: string;
 let userId: string;
 
 function getMockStripe() {
-  const Stripe = require('stripe');
-  return Stripe();
+  return (Stripe as jest.Mock)();
 }
 
 beforeAll(async () => {

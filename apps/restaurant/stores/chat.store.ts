@@ -37,7 +37,9 @@ export const useChatStore = create<ChatState>((set) => ({
       const { data } = await api.get('/conversations');
       const convs: IConversation[] = data.data.conversations;
       const unreadCounts: Record<string, number> = {};
-      convs.forEach((c: any) => { unreadCounts[c.id] = c.unreadCount || 0; });
+      convs.forEach((c: IConversation) => {
+        unreadCounts[c.id] = c.unreadCount || 0;
+      });
       set({ conversations: convs, unreadCounts, isLoading: false });
     } catch {
       set({ error: 'Failed to load conversations', isLoading: false });
@@ -47,7 +49,9 @@ export const useChatStore = create<ChatState>((set) => ({
   fetchMessages: async (conversationId, page = 1) => {
     set({ isLoadingMessages: true });
     try {
-      const { data } = await api.get(`/conversations/${conversationId}/messages?page=${page}&limit=50`);
+      const { data } = await api.get(
+        `/conversations/${conversationId}/messages?page=${page}&limit=50`,
+      );
       const msgs: IMessage[] = data.data.messages;
       set((state) => {
         const existing = state.messages[conversationId] || [];
@@ -75,7 +79,15 @@ export const useChatStore = create<ChatState>((set) => ({
         },
         conversations: state.conversations.map((c) =>
           c.id === conversationId
-            ? { ...c, lastMessage: { content: message.content, senderId: message.senderId, senderRole: message.senderRole, timestamp: message.createdAt } }
+            ? {
+                ...c,
+                lastMessage: {
+                  content: message.content,
+                  senderId: message.senderId,
+                  senderRole: message.senderRole,
+                  timestamp: message.createdAt,
+                },
+              }
             : c,
         ),
       };
@@ -104,9 +116,19 @@ export const useChatStore = create<ChatState>((set) => ({
       const current = state.typingUsers[conversationId] || [];
       if (isTyping) {
         if (current.some((u) => u.userId === userId)) return state;
-        return { typingUsers: { ...state.typingUsers, [conversationId]: [...current, { userId, userRole }] } };
+        return {
+          typingUsers: {
+            ...state.typingUsers,
+            [conversationId]: [...current, { userId, userRole }],
+          },
+        };
       }
-      return { typingUsers: { ...state.typingUsers, [conversationId]: current.filter((u) => u.userId !== userId) } };
+      return {
+        typingUsers: {
+          ...state.typingUsers,
+          [conversationId]: current.filter((u) => u.userId !== userId),
+        },
+      };
     });
   },
 }));

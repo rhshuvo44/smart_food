@@ -8,9 +8,19 @@ interface AvatarProps {
 }
 
 export function Avatar({ name, imageUrl, size = 48 }: AvatarProps) {
-  const initials = name.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2);
+  const initials = name
+    .split(' ')
+    .map((n) => n[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2);
   if (imageUrl) {
-    return <Image source={{ uri: imageUrl }} style={[styles.image, { width: size, height: size, borderRadius: size / 2 }]} />;
+    return (
+      <Image
+        source={{ uri: imageUrl }}
+        style={[styles.image, { width: size, height: size, borderRadius: size / 2 }]}
+      />
+    );
   }
   return (
     <View style={[styles.placeholder, { width: size, height: size, borderRadius: size / 2 }]}>

@@ -27,6 +27,8 @@ jest.mock('stripe', () => {
   return jest.fn().mockImplementation(() => mockInstance);
 });
 
+import Stripe from 'stripe';
+
 import {
   createPaymentIntent,
   handleStripeWebhook,
@@ -36,8 +38,7 @@ import {
 let mongoServer: MongoMemoryServer;
 
 function getMockStripe() {
-  const Stripe = require('stripe');
-  const instance = Stripe();
+  const instance = (Stripe as jest.Mock)();
   return instance;
 }
 
@@ -172,8 +173,8 @@ describe('Payment Service', () => {
       await handleStripeWebhook(mockEvent as any);
 
       const updated = await Payment.findById(payment._id);
-      expect(updated!.status).toBe(PaymentStatus.COMPLETED);
-      expect(updated!.paymentMethod).toBe('pm_card');
+      expect(updated.status).toBe(PaymentStatus.COMPLETED);
+      expect(updated.paymentMethod).toBe('pm_card');
     });
 
     it('marks payment as failed on payment_intent.payment_failed', async () => {
@@ -203,8 +204,8 @@ describe('Payment Service', () => {
       await handleStripeWebhook(mockEvent as any);
 
       const updated = await Payment.findById(payment._id);
-      expect(updated!.status).toBe(PaymentStatus.FAILED);
-      expect(updated!.failureReason).toBe('Card declined');
+      expect(updated.status).toBe(PaymentStatus.FAILED);
+      expect(updated.failureReason).toBe('Card declined');
     });
   });
 

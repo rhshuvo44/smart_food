@@ -27,9 +27,7 @@ export default function PaymentScreen() {
               <Text style={styles.cardBrand}>VISA</Text>
               <Text style={styles.cardType}>💳</Text>
             </View>
-            <Text style={styles.cardNumber}>
-              {cardNumber || '•••• •••• •••• ••••'}
-            </Text>
+            <Text style={styles.cardNumber}>{cardNumber || '•••• •••• •••• ••••'}</Text>
             <View style={styles.cardBottom}>
               <Text style={styles.cardExpiry}>{expiry || 'MM/YY'}</Text>
               <Text style={styles.cardCvv}>{cvv ? '•••' : 'CVV'}</Text>
@@ -47,7 +45,15 @@ export default function PaymentScreen() {
           <Input
             label="Card Number"
             value={cardNumber}
-            onChangeText={(t) => setCardNumber(t.replace(/\D/g, '').replace(/(.{4})/g, '$1 ').trim().slice(0, 19))}
+            onChangeText={(t) =>
+              setCardNumber(
+                t
+                  .replace(/\D/g, '')
+                  .replace(/(.{4})/g, '$1 ')
+                  .trim()
+                  .slice(0, 19),
+              )
+            }
             placeholder="4242 4242 4242 4242"
             keyboardType="phone-pad"
           />
@@ -56,7 +62,12 @@ export default function PaymentScreen() {
               <Input label="Expiry" value={expiry} onChangeText={setExpiry} placeholder="MM/YY" />
             </View>
             <View style={styles.half}>
-              <Input label="CVV" value={cvv} onChangeText={(t) => setCvv(t.replace(/\D/g, '').slice(0, 3))} placeholder="123" />
+              <Input
+                label="CVV"
+                value={cvv}
+                onChangeText={(t) => setCvv(t.replace(/\D/g, '').slice(0, 3))}
+                placeholder="123"
+              />
             </View>
           </View>
         </View>
@@ -83,7 +94,13 @@ const styles = StyleSheet.create({
   cardTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   cardBrand: { fontSize: 24, fontWeight: '700', color: colors.white, letterSpacing: 2 },
   cardType: { fontSize: 32 },
-  cardNumber: { fontSize: 22, fontWeight: '600', color: colors.white, letterSpacing: 2, textAlign: 'center' },
+  cardNumber: {
+    fontSize: 22,
+    fontWeight: '600',
+    color: colors.white,
+    letterSpacing: 2,
+    textAlign: 'center',
+  },
   cardBottom: { flexDirection: 'row', justifyContent: 'space-between' },
   cardExpiry: { fontSize: 14, color: 'rgba(255,255,255,0.7)', letterSpacing: 1 },
   cardCvv: { fontSize: 14, color: 'rgba(255,255,255,0.7)' },

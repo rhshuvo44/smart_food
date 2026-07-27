@@ -35,7 +35,12 @@ export default function OrderDetailScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
   content: { padding: spacing.md },
-  badgeRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing.md },
+  badgeRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: spacing.md,
+  },
   date: { fontSize: 13, color: colors.textSecondary },
   label: { fontSize: 14, fontWeight: '600', color: colors.text, marginBottom: spacing.sm },
   itemRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: spacing.sm },

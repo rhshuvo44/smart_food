@@ -36,8 +36,12 @@ export function Header({ title, subtitle, showBack, rightAction }: HeaderProps) 
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row', alignItems: 'center', paddingHorizontal: spacing.md,
-    paddingTop: spacing.xl, paddingBottom: spacing.md, backgroundColor: colors.primary,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: spacing.md,
+    paddingTop: spacing.xl,
+    paddingBottom: spacing.md,
+    backgroundColor: colors.primary,
   },
   left: { width: 44 },
   backBtn: { padding: spacing.xs },

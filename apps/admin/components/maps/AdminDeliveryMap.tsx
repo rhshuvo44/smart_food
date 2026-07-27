@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native
 import MapView, { Marker, Callout, Polygon } from 'react-native-maps';
 import api from '../../services/api';
 
-
 interface DeliveryOverview {
   id: string;
   orderId: string;
@@ -57,7 +56,12 @@ export function AdminDeliveryMap() {
     fetchData();
   }, [fetchData]);
 
-  if (isLoading) return <Text style={{ textAlign: 'center', marginTop: 40, color: '#6C757D' }}>Loading delivery map...</Text>;
+  if (isLoading)
+    return (
+      <Text style={{ textAlign: 'center', marginTop: 40, color: '#6C757D' }}>
+        Loading delivery map...
+      </Text>
+    );
 
   const region = { latitude: 23.8103, longitude: 90.4125, latitudeDelta: 0.1, longitudeDelta: 0.1 };
 

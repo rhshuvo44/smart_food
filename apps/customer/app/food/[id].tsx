@@ -15,10 +15,11 @@ export default function FoodDetailScreen() {
   const { addItem, restaurantId } = useCartStore();
 
   const item = {
-    id: id!,
+    id: id ?? '',
     restaurantId: '1',
     name: 'Margherita Pizza',
-    description: 'Fresh mozzarella, basil, and our signature tomato sauce on a hand-tossed crust. Baked to perfection in our wood-fired oven.',
+    description:
+      'Fresh mozzarella, basil, and our signature tomato sauce on a hand-tossed crust. Baked to perfection in our wood-fired oven.',
     price: 14.99,
     currency: 'USD',
     category: 'Pizza',
@@ -34,11 +35,12 @@ export default function FoodDetailScreen() {
   const extras = ['Extra Cheese +$2', 'Pepperoni +$3', 'Mushrooms +$1.5', 'Olives +$1'];
   const [selectedExtras, setSelectedExtras] = useState<string[]>([]);
 
-  const totalPrice = (item.price + (selectedSize === 'Large' ? 4 : selectedSize === 'Small' ? -2 : 0)) * quantity;
+  const totalPrice =
+    (item.price + (selectedSize === 'Large' ? 4 : selectedSize === 'Small' ? -2 : 0)) * quantity;
 
   const toggleExtra = (extra: string) => {
     setSelectedExtras((prev) =>
-      prev.includes(extra) ? prev.filter((e) => e !== extra) : [...prev, extra]
+      prev.includes(extra) ? prev.filter((e) => e !== extra) : [...prev, extra],
     );
   };
 
@@ -109,7 +111,9 @@ export default function FoodDetailScreen() {
                 style={[styles.extraRow, selectedExtras.includes(extra) && styles.extraRowActive]}
                 onPress={() => toggleExtra(extra)}
               >
-                <View style={[styles.checkbox, selectedExtras.includes(extra) && styles.checkboxActive]}>
+                <View
+                  style={[styles.checkbox, selectedExtras.includes(extra) && styles.checkboxActive]}
+                >
                   {selectedExtras.includes(extra) && <Text style={styles.checkMark}>✓</Text>}
                 </View>
                 <Text style={styles.extraLabel}>{extra}</Text>
@@ -121,7 +125,11 @@ export default function FoodDetailScreen() {
 
           <View style={styles.quantityRow}>
             <Text style={styles.sectionTitle}>Quantity</Text>
-            <QuantitySelector quantity={quantity} onIncrease={() => setQuantity((q) => q + 1)} onDecrease={() => setQuantity((q) => Math.max(1, q - 1))} />
+            <QuantitySelector
+              quantity={quantity}
+              onIncrease={() => setQuantity((q) => q + 1)}
+              onDecrease={() => setQuantity((q) => Math.max(1, q - 1))}
+            />
           </View>
         </View>
       </ScrollView>
@@ -131,7 +139,12 @@ export default function FoodDetailScreen() {
           <Text style={styles.totalLabel}>Total</Text>
           <Text style={styles.totalPrice}>${totalPrice.toFixed(2)}</Text>
         </View>
-        <Button title="Add to Cart" onPress={handleAddToCart} variant="primary" style={styles.addToCartBtn} />
+        <Button
+          title="Add to Cart"
+          onPress={handleAddToCart}
+          variant="primary"
+          style={styles.addToCartBtn}
+        />
       </View>
     </View>
   );
@@ -143,13 +156,34 @@ const styles = StyleSheet.create({
   imageContainer: { height: 300, backgroundColor: colors.surfaceVariant },
   imagePlaceholder: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   foodEmoji: { fontSize: 100 },
-  content: { padding: spacing.md, marginTop: -20, backgroundColor: colors.white, borderTopLeftRadius: 24, borderTopRightRadius: 24 },
+  content: {
+    padding: spacing.md,
+    marginTop: -20,
+    backgroundColor: colors.white,
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+  },
   name: { ...typography.h2 },
-  priceRow: { flexDirection: 'row', alignItems: 'center', marginTop: spacing.sm, justifyContent: 'space-between' },
+  priceRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: spacing.sm,
+    justifyContent: 'space-between',
+  },
   price: { ...typography.h2, color: colors.primary },
-  dietaryBadge: { backgroundColor: colors.successLight, paddingHorizontal: spacing.sm, paddingVertical: 4, borderRadius: spacing.sm },
+  dietaryBadge: {
+    backgroundColor: colors.successLight,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 4,
+    borderRadius: spacing.sm,
+  },
   dietaryText: { fontSize: 12, fontWeight: '500', color: colors.success },
-  description: { ...typography.body, color: colors.textSecondary, marginTop: spacing.md, lineHeight: 24 },
+  description: {
+    ...typography.body,
+    color: colors.textSecondary,
+    marginTop: spacing.md,
+    lineHeight: 24,
+  },
   sectionTitle: { fontSize: 16, fontWeight: '600', color: colors.text, marginBottom: spacing.sm },
   sizeRow: { flexDirection: 'row', gap: spacing.sm },
   sizeChip: {

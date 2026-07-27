@@ -12,7 +12,8 @@ export default function RestaurantsScreen() {
   const { data: restaurants, isLoading } = useQuery({
     queryKey: ['admin-restaurants'],
     queryFn: async () => {
-      const { data } = await api.get<IApiResponse<{ restaurants: IRestaurant[] }>>('/admin/restaurants');
+      const { data } =
+        await api.get<IApiResponse<{ restaurants: IRestaurant[] }>>('/admin/restaurants');
       return data.data?.restaurants ?? [];
     },
   });
@@ -48,7 +49,13 @@ export default function RestaurantsScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
   list: { padding: spacing.md },
-  card: { backgroundColor: colors.white, borderRadius: borderRadius.md, padding: spacing.md, marginBottom: spacing.sm, ...shadows.sm },
+  card: {
+    backgroundColor: colors.white,
+    borderRadius: borderRadius.md,
+    padding: spacing.md,
+    marginBottom: spacing.sm,
+    ...shadows.sm,
+  },
   topRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   name: { fontSize: 16, fontWeight: '600', color: colors.text, flex: 1, marginRight: spacing.sm },
   cuisine: { fontSize: 13, color: colors.textSecondary, marginTop: 4 },

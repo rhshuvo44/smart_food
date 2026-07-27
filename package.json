@@ -13,7 +13,9 @@
     "typecheck": "tsc --noEmit -p tsconfig.base.json",
     "test": "jest --passWithNoTests",
     "build": "npm run build --workspaces --if-present",
-    "clean": "npm run clean --workspaces --if-present"
+    "clean": "npm run clean --workspaces --if-present",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
@@ -34,6 +36,8 @@
   },
   "dependencies": {
     "react-native": "^0.76.9",
-    "react-native-web": "^0.21.2"
+    "react-native-web": "^0.21.2",
+    "expo": "~52.0.49",
+    "react": "18.3.1"
   }
 }

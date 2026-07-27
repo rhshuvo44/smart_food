@@ -85,7 +85,8 @@ export function initializeSocketServer(httpServer: HttpServer): SocketServer {
     });
 
     // ─── Chat Events ────────────────────────────────────────────────────
-    registerChatSocketHandlers(io!, socket);
+    if (!io) throw new Error('Socket.IO not initialized');
+    registerChatSocketHandlers(io, socket);
 
     socket.on('disconnect', () => {
       logger.info('Client disconnected', { socketId: socket.id });

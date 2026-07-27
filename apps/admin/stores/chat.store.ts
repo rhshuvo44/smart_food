@@ -37,7 +37,7 @@ export const useChatStore = create<ChatState>((set) => ({
       const { data } = await api.get('/conversations');
       const convs: IConversation[] = data.data.conversations;
       const unreadCounts: Record<string, number> = {};
-      convs.forEach((c: any) => {
+      convs.forEach((c: IConversation) => {
         unreadCounts[c.id] = c.unreadCount || 0;
       });
       set({ conversations: convs, unreadCounts, isLoading: false });

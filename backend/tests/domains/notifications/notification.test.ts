@@ -366,8 +366,8 @@ describe('Notification System', () => {
 
       const notif = await Notification.findById(result.notificationId);
       expect(notif).toBeDefined();
-      expect(notif!.channel).toBe('in_app');
-      expect(notif!.status).toBe('sent');
+      expect(notif.channel).toBe('in_app');
+      expect(notif.status).toBe('sent');
     });
   });
 
@@ -382,7 +382,7 @@ describe('Notification System', () => {
       const template = await templateService.getTemplate('order_confirmation', 'push');
       expect(template).not.toBeNull();
 
-      const rendered = templateService.renderTemplate(template!, {
+      const rendered = templateService.renderTemplate(template, {
         firstName: 'John',
         orderId: '123',
         restaurantName: 'Pizza Place',
@@ -401,7 +401,7 @@ describe('Notification System', () => {
       const template = await templateService.getTemplate('order_confirmation', 'push');
       expect(template).not.toBeNull();
 
-      const rendered = templateService.renderTemplate(template!, {
+      const rendered = templateService.renderTemplate(template, {
         firstName: 'John',
       });
 
@@ -417,7 +417,7 @@ describe('Notification System', () => {
     it('should get template by key, channel, and locale', async () => {
       const template = await templateService.getTemplate('order_confirmation', 'email', 'en');
       expect(template).not.toBeNull();
-      expect(template!.channel).toBe('email');
+      expect(template.channel).toBe('email');
     });
   });
 
@@ -475,9 +475,9 @@ describe('Notification System', () => {
         const pushResult = result.channelResults.find((r) => r.channel === 'push');
         const emailResult = result.channelResults.find((r) => r.channel === 'email');
         expect(pushResult).toBeDefined();
-        expect(pushResult!.success).toBe(false);
+        expect(pushResult.success).toBe(false);
         expect(emailResult).toBeDefined();
-        expect(emailResult!.success).toBe(true);
+        expect(emailResult.success).toBe(true);
       });
 
       it('should skip channels user opted out of', async () => {
@@ -507,7 +507,7 @@ describe('Notification System', () => {
         // email should be tried and succeed
         const emailResult = result.channelResults.find((r) => r.channel === 'email');
         expect(emailResult).toBeDefined();
-        expect(emailResult!.success).toBe(true);
+        expect(emailResult.success).toBe(true);
       });
 
       it('should force send when force option is true', async () => {
@@ -541,7 +541,7 @@ describe('Notification System', () => {
         // Should send despite preferences (push should succeed because force skips preference check)
         const pushResult = result.channelResults.find((r) => r.channel === 'push');
         expect(pushResult).toBeDefined();
-        expect(pushResult!.success).toBe(true);
+        expect(pushResult.success).toBe(true);
       });
 
       it('should always create an in-app notification record on failure chain', async () => {
@@ -790,7 +790,7 @@ describe('Notification System', () => {
       await prefs.save();
 
       const updated = await NotificationPreference.findOne({ userId: user._id });
-      expect(updated!.channels.push).toBe(false);
+      expect(updated.channels.push).toBe(false);
     });
 
     it('should track notification status changes', async () => {
@@ -811,8 +811,8 @@ describe('Notification System', () => {
       await notification.save();
 
       const updated = await Notification.findById(notification._id);
-      expect(updated!.status).toBe('opened');
-      expect(updated!.readAt).toBeDefined();
+      expect(updated.status).toBe('opened');
+      expect(updated.readAt).toBeDefined();
     });
 
     it('should support stop-all (disable all channels)', async () => {
@@ -826,10 +826,10 @@ describe('Notification System', () => {
       await prefs.save();
 
       const updated = await NotificationPreference.findOne({ userId: user._id });
-      expect(updated!.channels.push).toBe(false);
-      expect(updated!.channels.email).toBe(false);
-      expect(updated!.channels.sms).toBe(false);
-      expect(updated!.channels.in_app).toBe(false);
+      expect(updated.channels.push).toBe(false);
+      expect(updated.channels.email).toBe(false);
+      expect(updated.channels.sms).toBe(false);
+      expect(updated.channels.in_app).toBe(false);
     });
 
     it('should count unread notifications', async () => {

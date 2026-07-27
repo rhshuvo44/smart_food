@@ -31,9 +31,15 @@ export function SearchBar({ value, onChangeText, placeholder = 'Search...' }: Se
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row', alignItems: 'center', marginHorizontal: spacing.md,
-    marginVertical: spacing.sm, paddingHorizontal: spacing.md,
-    backgroundColor: colors.surface, borderRadius: borderRadius.md, borderWidth: 1, borderColor: colors.border,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: spacing.md,
+    marginVertical: spacing.sm,
+    paddingHorizontal: spacing.md,
+    backgroundColor: colors.surface,
+    borderRadius: borderRadius.md,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   icon: { fontSize: 16, marginRight: spacing.sm },
   input: { flex: 1, paddingVertical: 10, fontSize: 15, color: colors.text },

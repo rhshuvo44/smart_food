@@ -26,8 +26,8 @@ export default function ChatScreen() {
   } = useChatStore();
   const user = useAuthStore((s) => s.user);
   const conversation = conversations.find((c) => c.id === conversationId);
-  const msgs = messages[conversationId!] || [];
-  const typing = typingUsers[conversationId!] || [];
+  const msgs = messages[conversationId ?? ''] || [];
+  const typing = typingUsers[conversationId ?? ''] || [];
 
   useEffect(() => {
     if (!conversationId) return;
@@ -70,7 +70,9 @@ export default function ChatScreen() {
         // Fallback to REST API
         try {
           const { default: apiClient } = await import('../../services/api.js');
-          await (apiClient as any).post(`/conversations/${conversationId}/messages`, { content: text });
+          await (apiClient as any).post(`/conversations/${conversationId}/messages`, {
+            content: text,
+          });
         } catch {
           // Silent fallback
         }

@@ -42,6 +42,7 @@ export function RestaurantLocationSetup({ initialLocation, onSaved }: Props) {
       await api.put('/restaurant/me/location', { lat, lng, address });
       onSaved?.({ lat, lng, address });
     } catch {
+      /* empty */
     } finally {
       setIsSaving(false);
     }
